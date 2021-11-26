@@ -1,0 +1,6 @@
+The alorithm requires following packages
+	Python 
+	PySpark
+	graphframe
+	NetworkX
+	Matplotlib
