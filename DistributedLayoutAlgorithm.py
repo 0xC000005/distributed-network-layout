@@ -1,4 +1,4 @@
-# import packages
+#import packages
 from __future__ import print_function 
 import pyspark
 import math
@@ -141,9 +141,39 @@ def rForceCenter(vertexCord):
     return [rDispX,rDispY]
 rForceCenter = F.udf(rForceCenter,ArrayType(DoubleType()))
 
+# Funtion to scale the vertice degree centrality
+# @Param: degree of vertex and maxDegree in the graph
+# @return: the scaled degree between 0 to 5
+def scale_degree(degree, maxDegree,  minDegree=1,mi=0, ma=5, log=False, power=1):
+    r"""Convert property map values to be more useful as a vertex size, or edge
+    width. The new values are taken to be
+
+    .. math::
+
+        y_i = mi + (ma - mi) \left(\frac{x_i - \min(x)} {\max(x) - \min(x)}\right)^\text{power}
+
+    If ``log=True``, :math:`x_i` is replaced with :math:`\ln(x_i)`.
+
+    If :math:`\max(x) - \min(x)` is zero, :math:`y_i = mi`.
+
+    """
+    delta = (maxDegree) - minDegree
+    if delta == 0:
+        delta = 1
+    prop = mi + (ma - mi) * ((degree - minDegree) / delta) ** power
+    return prop
+scale_degree = F.udf(scale_degree,DoubleType())
+
+
 if __name__ == "__main__":
+    startTime = timeit.default_timer()
+    # save file arguments to variables
+    inputPath = sys.argv[1]
+    outputPath = sys.argv[2]
+    numIteration = int(sys.argv[3])
+    name = os.path.basename(inputPath ).split(".")[0]
+
     # create spark context
-    name = "amazon_MLDLA_6.1"
     spark = pyspark.sql.SparkSession.builder\
     .appName(name) \
     .getOrCreate()
@@ -153,11 +183,6 @@ if __name__ == "__main__":
     sc.setLogLevel("ERROR")
 
   
-    startTime = timeit.default_timer()
-    # save file arguments to variables
-    inputPath = sys.argv[1]
-    outputPath = sys.argv[2]
-    numIteration = sys.argv[3]
     checkpintDir = outputPath+"checkpoint"
     
     try:
@@ -328,33 +353,45 @@ if __name__ == "__main__":
         t -= dt
     updatedV = verticeWithCord.select("id","xy")
 
+    graph = GraphFrame(updatedV  , edges)
+    VerticesInDegrees = graph.inDegrees
+    VerticesOutDegrees = graph.outDegrees
+    veticesFinal = updatedV.join(VerticesInDegrees, on = "id", how = "left").na.fill(value=1).join(VerticesOutDegrees, on = "id", how = "left").na.fill(value=1)
+    maxInDegree = veticesFinal.orderBy(F.col("inDegree").desc()).take(1)[0][2]
+    maxOutDegree = veticesFinal.orderBy(F.col("outDegree").desc()).take(1)[0][2]
+    vertices_scaled_degree = veticesFinal.withColumn("scaled_inDegree",scale_degree("inDegree",F.lit(maxInDegree))).withColumn("scaled_outDegree",scale_degree("outDegree",F.lit(maxOutDegree)))
     time5 = timeit.default_timer() - startTime
     print("time taken for layout of combined levels = {}".format(time5))
 
-    vList = updatedV.select("id").rdd.flatMap(lambda x : x).collect()
+    vList = vertices_scaled_degree.select("id").rdd.flatMap(lambda x : x).collect()
     print("list of nodes are collected")
 
-    vListPos = updatedV.select("xy").rdd.flatMap(lambda x : x).collect()
+    vListPos = vertices_scaled_degree.select("xy").rdd.flatMap(lambda x : x).collect()
     print("list of nodes positions are collected")
 
-    pos_friendster = dict(zip(vList, vListPos))
+    vlistDegree = vertices_scaled_degree.select("scaled_inDegree").rdd.flatMap(lambda x : x).collect()
+    print("list of nodes degree are collected")
+
+    degree = dict(zip(vList, vlistDegree))
+    pos = dict(zip(vList, vListPos))
     print("dict of nodes and their positions are created")
 
     nxGraphLayout = nx.from_pandas_edgelist(edges.toPandas(),source="src", target="dst")
     print("networkx graph object is created")
-    
+
     #plot the nextworkX graph and save it to output path
-    a = nx.draw(nxGraphLayout,pos_friendster,node_size=1,width=0.1)
+    a = nx.draw(nxGraphLayout,pos,node_size=vlistDegree,width=0.1)
     print("networkx graph using distribute layout is created")
-    plt.title("{name}_{numIteration}_Iterations_{numberOfCentroids}_centroids layout".format(name=name,numIteration=numIteration,numberOfCentroids=numberOfCentroids))
-    plt.savefig("{outputPath}{name}_{numIteration}_Iterations_{numberOfCentroids}_centroids.png".format(outputPath=outputPath,name=name,numIteration=numIteration,numberOfCentroids=numberOfCentroids), dpi=1000,bbox_inches='tight')
+
+    plt.title("{name}_{numIteration}_Iterations layout".format(name=name,numIteration=numIteration))
+    plt.savefig("{outputPath}{name}_{numIteration}_Iterations.png".format(outputPath=outputPath,name=name,numIteration=numIteration), dpi=1000,bbox_inches='tight')
     print("graph is saved to the disk")
     print("Num of nodes: {}".format(updatedV.count()))
     print("Num of edges: {}".format(edges.count()))
     
     #Save the calculated position of the graph to output path
-    updatedV.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_{numberOfCentroids}_centroids_updatedVertices.parquet".format(outputPath=outputPath,name=name,numIteration=numIteration,numberOfCentroids=numberOfCentroids))
-    edges.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_{numberOfCentroids}_centroids_edges.parquet".format(outputPath=outputPath,name=name,numIteration=numIteration,numberOfCentroids=numberOfCentroids))
+    updatedV.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_updatedVertices.parquet".format(outputPath=outputPath,name=name,numIteration=numIteration))
+    edges.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_edges.parquet".format(outputPath=outputPath,name=name,numIteration=numIteration))
     print("Nodes and Edges dataframes saved to disk")
     
     #remove the checkpoint dir
