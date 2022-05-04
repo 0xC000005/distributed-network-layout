@@ -7,6 +7,11 @@ To support the distributed processing of a graph, the Distributed Network Layout
 
 At its core, the DNL script is a Spark/GraphFrames-based implementation of the MuGDAD approach proposed by [Hinge, Richer & Auber (2017)](https://hal.archives-ouvertes.fr/hal-01516889/document) and the Force-Directed algorithm by [Fruchterman & Reingold (1991)](https://doi.org/10.1002/spe.4380211102).
 
+Please cite as:
+    
+    Gruzd, A. & Attarwala, S. (2021). Distributed Network Layout [Open Souce]. Social Media Lab, Toronto Metropolitan University, Toronto, Canada.
+
+
 ## How to start the batch file
 
 To run the DNL script on a compute cluster such as [ComputeCanada](https://www.computecanada.ca/), modify the sample batch file ([BatchScript.sh](https://github.com/SocialMediaLab/distributed-network-layout/blob/main/BatchScript.s)) and then submit it using the sbatch command as shown below:
@@ -14,7 +19,7 @@ To run the DNL script on a compute cluster such as [ComputeCanada](https://www.c
     sbatch BatchScript.sh
 
 The Batch Script requires 4 arguments that need to be passed with the spark-submit command. They are listed below:
-|**Argument**| Description|
+| Argument | Description|
 |--|--|
 |1. Location of the DNL script | Spark will look for this location to import the DNL script |
 |2. Location of the input edge-list file | DNL will load the input file from this location |
