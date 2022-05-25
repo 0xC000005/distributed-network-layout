@@ -21,9 +21,9 @@ from graphframes import GraphFrame
 from graphframes.lib import AggregateMessages as AM
 
 
-# Function to calculate the displacement on source`s x axis due to dest attractive force
-# @para it take 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
-# @return the displacement on the source`s x axis due to destinations attractive force: DoubleType()
+# Function to calculate the displacement on source`s x-axis due to dest attractive force
+# @para it takes 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
+# @return the displacement on the source`s x-axis due to destinations attractive force: DoubleType()
 def aDispSrc(node1, node2):
     # Constant to calculate attractive and repulsive force
     K = math.sqrt(1 / nNodes)
@@ -50,9 +50,9 @@ def aDispSrc(node1, node2):
 aDispSrc = F.udf(aDispSrc, ArrayType(DoubleType()))
 
 
-# Function to calculate the displacement on dst`s x axis due to dest attractive force
-# @para it take 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
-# @return the displacement on the dst`s x axis due to destinations attractive force: DoubleType()
+# Function to calculate the displacement on dst`s x-axis due to dest attractive force
+# @para it takes 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
+# @return the displacement on the dst`s x-axis due to destinations attractive force: DoubleType()
 def aDispDst(node1, node2):
     K = math.sqrt(1 / nNodes)
     dx = (node2[0] - node1[0])
@@ -77,8 +77,8 @@ def aDispDst(node1, node2):
 
 aDispDst = F.udf(aDispDst, ArrayType(DoubleType()))
 
-# Function to calculate the associated centroid and it distance to the vertex 
-# @para it takes source vertex x,y co-ordiates as input parameter
+# Function to calculate the associated centroid, and it distances to the vertex
+# @para it takes source vertex x,y co-ordinates as input parameter
 # @return the associated centroid and its distances from the vertex
 centroidVertexAssociationUdf = F.udf(lambda z: centroidVertexAssociation(z), ArrayType(DoubleType()))
 
@@ -101,9 +101,9 @@ def centroidVertexAssociation(vertexCord):
     return [centroidAssociated, centroidDistance]
 
 
-# Function to calculate the dispalcement on vertices due to centroids repulsive force
-# @para it takes vertex x,y co-ordiates as input parameter
-# @return the dsisplacement of vertex position due to centroids repulsive force
+# Function to calculate the displacement on vertices due to centroids repulsive force
+# @para it takes vertex x,y co-ordinates as input parameter
+# @return the displacement of vertex position due to centroids repulsive force
 def rForceCentroid(vertexCord):
     K = math.sqrt(1 / nNodes)
     centroidLength = len(centroid_list)
@@ -132,9 +132,9 @@ def rForceCentroid(vertexCord):
 rForceCentroid = F.udf(rForceCentroid, ArrayType(DoubleType()))
 
 
-# Function to calculate the dispalcement on vertices due to center repulsive force
-# @para it takes vertex x,y co-ordiates as input parameter
-# @return the dsisplacement of vertex position due to center repulsive force
+# Function to calculate the displacement on vertices due to center repulsive force
+# @para it takes vertex x,y co-ordinates as input parameter
+# @return the displacement of vertex position due to center repulsive force
 def rForceCenter(vertexCord):
     K = math.sqrt(1 / nNodes)
     weight = 1
@@ -157,9 +157,9 @@ def rForceCenter(vertexCord):
 rForceCenter = F.udf(rForceCenter, ArrayType(DoubleType()))
 
 
-# Funtion to scale the vertice degree centrality
+# Function to scale the vertices degree centrality
 # @Param: degree of vertex and maxDegree in the graph
-# @return: the scaled degree between 0 to 5
+# @return: the scaled degree between 0 and 5
 def scale_degree(degree, maxDegree, minDegree=1, mi=0, ma=5, log=False, power=1):
     r"""Convert property map values to be more useful as a vertex size, or edge
     width. The new values are taken to be
@@ -173,7 +173,7 @@ def scale_degree(degree, maxDegree, minDegree=1, mi=0, ma=5, log=False, power=1)
     If :math:`\max(x) - \min(x)` is zero, :math:`y_i = mi`.
 
     """
-    delta = (maxDegree) - minDegree
+    delta = maxDegree - minDegree
     if delta == 0:
         delta = 1
     prop = mi + (ma - mi) * ((degree - minDegree) / delta) ** power
@@ -199,18 +199,18 @@ if __name__ == "__main__":
     sqlContext = pyspark.SQLContext.getOrCreate(sc)
     sc.setLogLevel("ERROR")
 
-    checkpintDir = outputPath + "checkpoint"
+    checkpointDir = outputPath + "checkpoint"
 
     try:
-        if os.path.exists(checkpintDir):
+        if os.path.exists(checkpointDir):
             print("Checkpoint directory already exist")
         else:
-            os.mkdir(checkpintDir)
-            print("Successfully created the directory %s " % checkpintDir)
+            os.mkdir(checkpointDir)
+            print("Successfully created the directory %s " % checkpointDir)
     except OSError:
-        print("Creation of the directory %s failed" % checkpintDir)
+        print("Creation of the directory %s failed" % checkpointDir)
 
-    sc.setCheckpointDir(checkpintDir)
+    sc.setCheckpointDir(checkpointDir)
 
     #     startTime = timeit.default_timer()
     InitialNumPartitions = sc.defaultParallelism
@@ -230,12 +230,12 @@ if __name__ == "__main__":
     vA = edgesCheckpoint.select(F.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
     #     print(vA.rdd.getNumPartitions())
-    #     print("number of unique verticex in src column: {}".format(vA.count()))
+    #     print("number of unique vertices in src column: {}".format(vA.count()))
 
     vB = edgesCheckpoint.select(F.col('dst')).drop_duplicates() \
         .withColumnRenamed('dst', 'id')
     #     print(vB.rdd.getNumPartitions())
-    #     print("number of unique verticex in dst column: {}".format(vB.count()))
+    #     print("number of unique vertices in dst column: {}".format(vB.count()))
     vF1 = vA.union(vB).distinct()
 
     nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
@@ -254,7 +254,7 @@ if __name__ == "__main__":
 
     # initialize index and graphs dictionary
     i = 0
-    # create GraphFrame object using nodes and egdes dataframe
+    # create GraphFrame object using nodes and edges dataframe
     graphs[i] = GraphFrame(nodesCheckpoint, edgesCheckpoint)
     currentNodes = graphs[i].vertices
 
@@ -264,7 +264,7 @@ if __name__ == "__main__":
     currentEdges = graphs[i].edges
     currentEdgesCounts = currentEdges.count()
 
-    # variable to stop the while loop of the seleceted nodes of next level of filtration is less than 3
+    # variable to stop the while loop of the selected nodes of next level of filtration is less than 3
     currentSelectedNodes = currentNodes.count()
 
     numOfVertices = graphs[i].vertices.count()
@@ -278,8 +278,8 @@ if __name__ == "__main__":
 
     numberOfCentroids = round(nNodes / 2)
 
-    # Initialize the vertice with x,y with random values and dispx,dispy with 0
-    verticeWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
+    # Initialize the vertices with x,y with random values and dispx,dispy with 0
+    verticesWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
         .checkpoint()
 
     # cool-down amount
@@ -288,11 +288,11 @@ if __name__ == "__main__":
     # calculate the center repulsive force for given iteration 
     for p in range(numIteration):
         # calculate centroids
-        centroids = verticeWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nNodes), seed=1)
+        centroids = verticesWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nNodes), seed=1)
         centroid_list = centroids.select("xy").rdd.flatMap(lambda x: x).collect()
 
         # calculate centroids repulsive force
-        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
+        vCentroid = verticesWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
 
         vCentroid.count()
 
@@ -307,13 +307,13 @@ if __name__ == "__main__":
         centerBroadcast = sc.broadcast(center)
 
         # calculate center repulsive force
-        vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                        "dispCenterXY").cache()
+        vCenter = verticesWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
+                                                                                         "dispCenterXY").cache()
         vCenter.count()
 
         centerBroadcast.unpersist()
 
-        # calculate total repulsive forece displacement
+        # calculate total repulsive force displacement
         newVertices = vCentroid.join(vCenter, on="id") \
             .drop(vCentroid.xy) \
             .withColumn("dispX", (F.col("dispCentroidXY")[0] + F.col("dispCenterXY")[0])) \
@@ -323,15 +323,15 @@ if __name__ == "__main__":
         vCentroid.unpersist()
         vCenter.unpersist()
         #         print("rForce is calculated")
-        gfA = GraphFrame(verticeWithCord, edges)  # .cache()
+        gfA = GraphFrame(verticesWithCord, edges)  # .cache()
 
         # messages send to source and destination vertices to calculate displacement on node due to attractive force
         msgToSrc = aDispSrc(AM.src['xy'], AM.dst['xy'])
         msgToDst = aDispDst(AM.src['xy'], AM.dst['xy'])
 
-        # AM fucntion to calculate displacement on node due to attractive force
+        # AM function to calculate displacement on node due to attractive force
         # @para Sum all the messages on the nodes,sendToSrc adn SendToDst messages
-        # @return Dataframe with attribute Id, and displacementX
+        # @return Dataframe with attribute ID, and displacementX
         aAgg = gfA.aggregateMessages(
             F.array((F.sum(AM.msg.getItem(0))).alias("x"), (F.sum(AM.msg.getItem(1))).alias("y")).alias("aDispXY"),
             sendToSrc=msgToSrc,  # )
@@ -366,24 +366,24 @@ if __name__ == "__main__":
 
         newVertices2.unpersist()
 
-        verticeWithCord = updatedVertices
+        verticesWithCord = updatedVertices
         cachedAAgg.unpersist()
 
         print("{} Iterations are completed".format(p, k))
         t -= dt
-    updatedV = verticeWithCord.select("id", "xy")
+    updatedV = verticesWithCord.select("id", "xy")
 
     graph = GraphFrame(updatedV, edges)
     VerticesInDegrees = graph.inDegrees
     VerticesOutDegrees = graph.outDegrees
-    veticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees,
-                                                                                               on="id",
-                                                                                               how="left").na.fill(
+    verticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees,
+                                                                                                on="id",
+                                                                                                how="left").na.fill(
         value=1)
-    maxInDegree = veticesFinal.orderBy(F.col("inDegree").desc()).take(1)[0][2]
-    maxOutDegree = veticesFinal.orderBy(F.col("outDegree").desc()).take(1)[0][2]
-    vertices_scaled_degree = veticesFinal.withColumn("scaled_inDegree",
-                                                     scale_degree("inDegree", F.lit(maxInDegree))).withColumn(
+    maxInDegree = verticesFinal.orderBy(F.col("inDegree").desc()).take(1)[0][2]
+    maxOutDegree = verticesFinal.orderBy(F.col("outDegree").desc()).take(1)[0][2]
+    vertices_scaled_degree = verticesFinal.withColumn("scaled_inDegree",
+                                                      scale_degree("inDegree", F.lit(maxInDegree))).withColumn(
         "scaled_outDegree", scale_degree("outDegree", F.lit(maxOutDegree)))
     time5 = timeit.default_timer() - startTime
     print("time taken for layout of combined levels = {}".format(time5))
@@ -404,7 +404,7 @@ if __name__ == "__main__":
     nxGraphLayout = nx.from_pandas_edgelist(edges.toPandas(), source="src", target="dst")
     print("networkx graph object is created")
 
-    # plot the nextworkX graph and save it to output path
+    # plot the networkX graph and save it to output path
     a = nx.draw(nxGraphLayout, pos, node_size=vlistDegree, width=0.1)
     print("networkx graph using distribute layout is created")
 
@@ -427,10 +427,10 @@ if __name__ == "__main__":
 
     # remove the checkpoint dir
     try:
-        if os.path.exists(checkpintDir):
-            shutil.rmtree(checkpintDir)
-            print("Successfully deleted the directory %s " % checkpintDir)
+        if os.path.exists(checkpointDir):
+            shutil.rmtree(checkpointDir)
+            print("Successfully deleted the directory %s " % checkpointDir)
         else:
-            print("Directory does not exist: %s " % checkpintDir)
+            print("Directory does not exist: %s " % checkpointDir)
     except OSError:
-        print("Directory does not exist: %s " % checkpintDir)
+        print("Directory does not exist: %s " % checkpointDir)
