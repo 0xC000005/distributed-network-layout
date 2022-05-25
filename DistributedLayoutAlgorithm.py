@@ -186,6 +186,7 @@ scale_degree = Func.udf(scale_degree, DoubleType())
 
 if __name__ == "__main__":
     startTime = timeit.default_timer()
+
     # save file arguments to variables
     inputPath = sys.argv[1]
     outputPath = sys.argv[2]
@@ -194,11 +195,12 @@ if __name__ == "__main__":
 
     # create spark context
     spark = pyspark.sql.SparkSession.builder.appName(name).getOrCreate()
-
     sc = pyspark.SparkContext.getOrCreate()
     sqlContext = pyspark.SQLContext.getOrCreate(sc)
     sc.setLogLevel("ERROR")
 
+    # Create checkpoints so if the calculation failed, we can restore from checkpoints instead of starting all over
+    # again
     checkpointDir = outputPath + "checkpoint"
 
     try:
@@ -218,23 +220,24 @@ if __name__ == "__main__":
     # load input edge file 
     edges = spark.read.csv(inputPath, sep="\t", comment='#', header=None)
     edges = edges.withColumnRenamed("_c0", "src").withColumnRenamed("_c1", "dst")
+
     edgesCheckpoint = edges.checkpoint()
     edgesCheckpoint.count()
 
-    #     print("the number of partitions in edges df are")
-    #     numPartitions = edges.rdd.getNumPartitions()
-    #     print(numPartitions)
+    # print("the number of partitions in edges df are")
+    # numPartitions = edges.rdd.getNumPartitions()
+    # print(numPartitions)
 
     # Extract nodes from the edge list dataframe
     vA = edgesCheckpoint.select(Func.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
-    #     print(vA.rdd.getNumPartitions())
-    #     print("number of unique vertices in src column: {}".format(vA.count()))
+    # print(vA.rdd.getNumPartitions())
+    # print("number of unique vertices in src column: {}".format(vA.count()))
 
     vB = edgesCheckpoint.select(Func.col('dst')).drop_duplicates() \
         .withColumnRenamed('dst', 'id')
-    #     print(vB.rdd.getNumPartitions())
-    #     print("number of unique vertices in dst column: {}".format(vB.count()))
+    # print(vB.rdd.getNumPartitions())
+    # print("number of unique vertices in dst column: {}".format(vB.count()))
     vF1 = vA.union(vB).distinct()
 
     nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
@@ -244,12 +247,8 @@ if __name__ == "__main__":
     # print("Num of nodes: {}".format(nodesCheckpoint.count()))
     # print("Num of edges: {}".format(edgesCheckpoint.count()))
 
-    independentSet = []
+    # Initialized the graph
     graphs = dict()
-    metaGraph = dict()
-    metaGraphLayout = dict()
-    metaEdgeCord = dict()
-    completeGraphLayout = dict()
 
     # initialize index and graphs dictionary
     i = 0
@@ -278,7 +277,8 @@ if __name__ == "__main__":
     numberOfCentroids = round(nNodes / 2)
 
     # Initialize the nodes with random x,y coordinates and dispX,dispY with 0
-    verticesWithCord = vertices.withColumn("xy", Func.array(Func.rand(seed=1) * Func.lit(3), Func.rand(seed=0) * Func.lit(3))).checkpoint()
+    verticesWithCord = vertices.withColumn("xy", Func.array(Func.rand(seed=1) * Func.lit(3),
+                                                            Func.rand(seed=0) * Func.lit(3))).checkpoint()
 
     # cool-down amount
     dt = t / (numIteration + 1)
@@ -305,7 +305,8 @@ if __name__ == "__main__":
         centerBroadcast = sc.broadcast(center)
 
         # calculate center repulsive force
-        vCenter = verticesWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy", "dispCenterXY").cache()
+        vCenter = verticesWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
+                                                                                         "dispCenterXY").cache()
         vCenter.count()
 
         centerBroadcast.unpersist()
@@ -375,15 +376,19 @@ if __name__ == "__main__":
         t -= dt
     updatedV = verticesWithCord.select("id", "xy")
 
-
     # Plot the force-directed graph based on the final vertices and edges' positions
     graph = GraphFrame(updatedV, edges)
     VerticesInDegrees = graph.inDegrees
     VerticesOutDegrees = graph.outDegrees
-    verticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees, on="id", how="left").na.fill(value=1)
+    verticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees,
+                                                                                                on="id",
+                                                                                                how="left").na.fill(
+        value=1)
     maxInDegree = verticesFinal.orderBy(Func.col("inDegree").desc()).take(1)[0][2]
     maxOutDegree = verticesFinal.orderBy(Func.col("outDegree").desc()).take(1)[0][2]
-    vertices_scaled_degree = verticesFinal.withColumn("scaled_inDegree", scale_degree("inDegree", Func.lit(maxInDegree))).withColumn("scaled_outDegree", scale_degree("outDegree", Func.lit(maxOutDegree)))
+    vertices_scaled_degree = verticesFinal.withColumn("scaled_inDegree",
+                                                      scale_degree("inDegree", Func.lit(maxInDegree))).withColumn(
+        "scaled_outDegree", scale_degree("outDegree", Func.lit(maxOutDegree)))
     time5 = timeit.default_timer() - startTime
     print("time taken for layout of combined levels = {}".format(time5))
 
@@ -408,14 +413,20 @@ if __name__ == "__main__":
     print("networkx graph using distribute layout is created")
 
     plt.title("{name}_{numIteration}_Iterations layout".format(name=name, numIteration=numIteration))
-    plt.savefig("{outputPath}{name}_{numIteration}_Iterations.png".format(outputPath=outputPath, name=name, numIteration=numIteration), dpi=1000, bbox_inches='tight')
+    plt.savefig("{outputPath}{name}_{numIteration}_Iterations.png".format(outputPath=outputPath, name=name,
+                                                                          numIteration=numIteration), dpi=1000,
+                bbox_inches='tight')
     print("graph is saved to the disk")
     print("Num of nodes: {}".format(updatedV.count()))
     print("Num of edges: {}".format(edges.count()))
 
     # Save the calculated position of the graph to output path
-    updatedV.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_updatedVertices.parquet".format(outputPath=outputPath, name=name, numIteration=numIteration))
-    edges.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_edges.parquet".format(outputPath=outputPath, name=name, numIteration=numIteration))
+    updatedV.coalesce(10).write.mode("overwrite").parquet(
+        "{outputPath}{name}_{numIteration}_Iterations_updatedVertices.parquet".format(outputPath=outputPath, name=name,
+                                                                                      numIteration=numIteration))
+    edges.coalesce(10).write.mode("overwrite").parquet(
+        "{outputPath}{name}_{numIteration}_Iterations_edges.parquet".format(outputPath=outputPath, name=name,
+                                                                            numIteration=numIteration))
     print("Nodes and Edges dataframes saved to disk")
 
     # remove the checkpoint dir
