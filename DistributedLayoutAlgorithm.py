@@ -91,39 +91,16 @@ def aDispDst(node1, node2):
     if distance < 0.01:
         distance = 0.01
 
-    aForce = distance / K
+    attractiveForce = distance / K
     dispX = dx / distance
     dispY = dy / distance
-    aDispX = dispX * aForce
-    aDispY = dispY * aForce
+    aDispX = dispX * attractiveForce
+    aDispY = dispY * attractiveForce
     xy = [-aDispX, -aDispY, 1.0]
     return xy
 
 
-aDispDst = F.udf(aDispDst, ArrayType(DoubleType()))
-
-# Function to calculate the associated centroid, and it distances to the vertex
-# @para it takes source vertex x,y co-ordinates as input parameter
-# @return the associated centroid and its distances from the vertex
-centroidVertexAssociationUdf = F.udf(lambda z: centroidVertexAssociation(z), ArrayType(DoubleType()))
-
-
-def centroidVertexAssociation(vertexCord):
-    centroidsValue = centroidBroadcast.value
-    centroidLength = len(centroidsValue)
-    centroidDistance = 0.0
-    centroidAssociated = 0.0
-    for i in range(centroidLength):
-        dx = (vertexCord[0] - centroidsValue[i][1][0])
-        dy = (vertexCord[1] - centroidsValue[i][1][1])
-        distance = math.sqrt(dx ** 2 + dy ** 2)
-        if i == 0:
-            centroidDistance = distance
-            centroidAssociated = centroidsValue[i][0]
-        if distance < centroidDistance:
-            centroidAssociated = centroidsValue[i][0]
-            centroidDistance = distance
-    return [centroidAssociated, centroidDistance]
+aDispDst = Func.udf(aDispDst, ArrayType(DoubleType()))
 
 
 # Function to calculate the displacement on vertices due to centroids repulsive force
@@ -154,7 +131,7 @@ def rForceCentroid(vertexCord):
     return [rDispX, rDispY]
 
 
-rForceCentroid = F.udf(rForceCentroid, ArrayType(DoubleType()))
+rForceCentroid = Func.udf(rForceCentroid, ArrayType(DoubleType()))
 
 
 # Function to calculate the displacement on vertices due to center repulsive force
@@ -179,7 +156,7 @@ def rForceCenter(vertexCord):
     return [rDispX, rDispY]
 
 
-rForceCenter = F.udf(rForceCenter, ArrayType(DoubleType()))
+rForceCenter = Func.udf(rForceCenter, ArrayType(DoubleType()))
 
 
 # Function to scale the vertices degree centrality
@@ -205,7 +182,7 @@ def scale_degree(degree, maxDegree, minDegree=1, mi=0, ma=5, log=False, power=1)
     return prop
 
 
-scale_degree = F.udf(scale_degree, DoubleType())
+scale_degree = Func.udf(scale_degree, DoubleType())
 
 if __name__ == "__main__":
     startTime = timeit.default_timer()
@@ -216,9 +193,7 @@ if __name__ == "__main__":
     name = os.path.basename(inputPath).split(".")[0]
 
     # create spark context
-    spark = pyspark.sql.SparkSession.builder \
-        .appName(name) \
-        .getOrCreate()
+    spark = pyspark.sql.SparkSession.builder.appName(name).getOrCreate()
 
     sc = pyspark.SparkContext.getOrCreate()
     sqlContext = pyspark.SQLContext.getOrCreate(sc)
@@ -237,13 +212,12 @@ if __name__ == "__main__":
 
     sc.setCheckpointDir(checkpointDir)
 
-    #     startTime = timeit.default_timer()
+    # startTime = timeit.default_timer()
     InitialNumPartitions = sc.defaultParallelism
 
     # load input edge file 
     edges = spark.read.csv(inputPath, sep="\t", comment='#', header=None)
-    edges = edges.withColumnRenamed("_c0", "src") \
-        .withColumnRenamed("_c1", "dst")
+    edges = edges.withColumnRenamed("_c0", "src").withColumnRenamed("_c1", "dst")
     edgesCheckpoint = edges.checkpoint()
     edgesCheckpoint.count()
 
@@ -252,12 +226,12 @@ if __name__ == "__main__":
     #     print(numPartitions)
 
     # Extract nodes from the edge list dataframe
-    vA = edgesCheckpoint.select(F.col('src')).drop_duplicates() \
+    vA = edgesCheckpoint.select(Func.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
     #     print(vA.rdd.getNumPartitions())
     #     print("number of unique vertices in src column: {}".format(vA.count()))
 
-    vB = edgesCheckpoint.select(F.col('dst')).drop_duplicates() \
+    vB = edgesCheckpoint.select(Func.col('dst')).drop_duplicates() \
         .withColumnRenamed('dst', 'id')
     #     print(vB.rdd.getNumPartitions())
     #     print("number of unique vertices in dst column: {}".format(vB.count()))
@@ -273,7 +247,7 @@ if __name__ == "__main__":
     independentSet = []
     graphs = dict()
     metaGraph = dict()
-    metaGraphlayout = dict()
+    metaGraphLayout = dict()
     metaEdgeCord = dict()
     completeGraphLayout = dict()
 
@@ -303,8 +277,9 @@ if __name__ == "__main__":
 
     numberOfCentroids = round(nNodes / 2)
 
-    # Initialize the vertices with x,y with random values and dispx,dispy with 0
-    verticesWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
+    # Initialize the vertices with x,y with random values and dispX,dispY with 0
+    verticesWithCord = vertices.withColumn("xy",
+                                           Func.array(Func.rand(seed=1) * Func.lit(3), Func.rand(seed=0) * Func.lit(3))) \
         .checkpoint()
 
     # cool-down amount
@@ -323,8 +298,8 @@ if __name__ == "__main__":
 
         # find the center of the network
         if nNodes > 0:
-            x = centroids.agg(F.avg(F.col("xy")[0]).alias("centerX")).collect()
-            y = centroids.agg(F.avg(F.col("xy")[0]).alias("centerX")).collect()
+            x = centroids.agg(Func.avg(Func.col("xy")[0]).alias("centerX")).collect()
+            y = centroids.agg(Func.avg(Func.col("xy")[0]).alias("centerX")).collect()
             center = [x[0][0], y[0][0]]
         else:
             center = [0, 0]
@@ -341,8 +316,8 @@ if __name__ == "__main__":
         # calculate total repulsive force displacement
         newVertices = vCentroid.join(vCenter, on="id") \
             .drop(vCentroid.xy) \
-            .withColumn("dispX", (F.col("dispCentroidXY")[0] + F.col("dispCenterXY")[0])) \
-            .withColumn("dispY", (F.col("dispCentroidXY")[1] + F.col("dispCenterXY")[1])) \
+            .withColumn("dispX", (Func.col("dispCentroidXY")[0] + Func.col("dispCenterXY")[0])) \
+            .withColumn("dispY", (Func.col("dispCentroidXY")[1] + Func.col("dispCenterXY")[1])) \
             .cache()
 
         vCentroid.unpersist()
@@ -358,33 +333,38 @@ if __name__ == "__main__":
         # @para Sum all the messages on the nodes,sendToSrc adn SendToDst messages
         # @return Dataframe with attribute ID, and displacementX
         aAgg = gfA.aggregateMessages(
-            F.array((F.sum(AM.msg.getItem(0))).alias("x"), (F.sum(AM.msg.getItem(1))).alias("y")).alias("aDispXY"),
+            Func.array((Func.sum(AM.msg.getItem(0))).alias("x"), (Func.sum(AM.msg.getItem(1))).alias("y")).alias(
+                "aDispXY"),
             sendToSrc=msgToSrc,  # )
             sendToDst=msgToDst)
 
         cachedAAgg = AM.getCachedDataFrame(aAgg)
-        #         print("aForce is calculated")
+        # print("aForce is calculated")
 
         # Calculate total displacement from all forces
-        newVertices2 = newVertices.join((cachedAAgg), on=(newVertices['id'] == cachedAAgg['id']), how='left_outer') \
+        newVertices2 = newVertices.join(cachedAAgg, on=(newVertices['id'] == cachedAAgg['id']), how='left_outer') \
             .drop(cachedAAgg['id']) \
-            .withColumn('newDispColX', F.when(cachedAAgg['adispXY'][0].isNotNull(),
-                                              (cachedAAgg['adispXY'][0] + newVertices['dispX'])).otherwise(
+            .withColumn('newDispColX', Func.when(cachedAAgg['adispXY'][0].isNotNull(),
+                                                 (cachedAAgg['adispXY'][0] + newVertices['dispX'])).otherwise(
             newVertices['dispX'])) \
-            .withColumn('newDispColY', F.when(cachedAAgg['adispXY'][1].isNotNull(),
-                                              (cachedAAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
+            .withColumn('newDispColY', Func.when(cachedAAgg['adispXY'][1].isNotNull(),
+                                                 (cachedAAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
             newVertices['dispY'])) \
             .cache()
 
         newVertices.unpersist()
         # Update the vertices position
         updatedVertices = newVertices2.withColumn("length",
-                                                  F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
+                                                  Func.sqrt(
+                                                      Func.col('newDispColX') ** 2 + Func.col('newDispColY') ** 2)) \
             .withColumn('newDispX',
-                        (F.col('newDispColX') / F.col('length')) * F.least(F.abs(F.col('length')), F.lit(t))) \
+                        (Func.col('newDispColX') / Func.col('length')) * Func.least(Func.abs(Func.col('length')),
+                                                                                    Func.lit(t))) \
             .withColumn('newDispY',
-                        (F.col('newDispColY') / F.col('length')) * F.least(F.abs(F.col('length')), F.lit(t))) \
-            .withColumn('newXY', F.array((F.col('xy')[0] + F.col('newDispX')), (F.col('xy')[1] + F.col('newDispY')))) \
+                        (Func.col('newDispColY') / Func.col('length')) * Func.least(Func.abs(Func.col('length')),
+                                                                                    Func.lit(t))) \
+            .withColumn('newXY', Func.array((Func.col('xy')[0] + Func.col('newDispX')),
+                                            (Func.col('xy')[1] + Func.col('newDispY')))) \
             .drop("xy", "dispCentroidXY", "dispCenterXY", "dispX", "dispY", "aDispXY", "newDispColX", "newDispColY",
                   "length", "newDispX", "newDispY") \
             .withColumnRenamed("newXY", "xy").checkpoint(True)
@@ -405,11 +385,11 @@ if __name__ == "__main__":
                                                                                                 on="id",
                                                                                                 how="left").na.fill(
         value=1)
-    maxInDegree = verticesFinal.orderBy(F.col("inDegree").desc()).take(1)[0][2]
-    maxOutDegree = verticesFinal.orderBy(F.col("outDegree").desc()).take(1)[0][2]
+    maxInDegree = verticesFinal.orderBy(Func.col("inDegree").desc()).take(1)[0][2]
+    maxOutDegree = verticesFinal.orderBy(Func.col("outDegree").desc()).take(1)[0][2]
     vertices_scaled_degree = verticesFinal.withColumn("scaled_inDegree",
-                                                      scale_degree("inDegree", F.lit(maxInDegree))).withColumn(
-        "scaled_outDegree", scale_degree("outDegree", F.lit(maxOutDegree)))
+                                                      scale_degree("inDegree", Func.lit(maxInDegree))).withColumn(
+        "scaled_outDegree", scale_degree("outDegree", Func.lit(maxOutDegree)))
     time5 = timeit.default_timer() - startTime
     print("time taken for layout of combined levels = {}".format(time5))
 
@@ -419,10 +399,10 @@ if __name__ == "__main__":
     vListPos = vertices_scaled_degree.select("xy").rdd.flatMap(lambda x: x).collect()
     print("list of nodes positions are collected")
 
-    vlistDegree = vertices_scaled_degree.select("scaled_inDegree").rdd.flatMap(lambda x: x).collect()
+    vListDegree = vertices_scaled_degree.select("scaled_inDegree").rdd.flatMap(lambda x: x).collect()
     print("list of nodes degree are collected")
 
-    degree = dict(zip(vList, vlistDegree))
+    degree = dict(zip(vList, vListDegree))
     pos = dict(zip(vList, vListPos))
     print("dict of nodes and their positions are created")
 
@@ -430,7 +410,7 @@ if __name__ == "__main__":
     print("networkx graph object is created")
 
     # plot the networkX graph and save it to output path
-    a = nx.draw(nxGraphLayout, pos, node_size=vlistDegree, width=0.1)
+    a = nx.draw(nxGraphLayout, pos, node_size=vListDegree, width=0.1)
     print("networkx graph using distribute layout is created")
 
     plt.title("{name}_{numIteration}_Iterations layout".format(name=name, numIteration=numIteration))
