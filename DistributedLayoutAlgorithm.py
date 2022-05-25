@@ -239,10 +239,10 @@ if __name__ == "__main__":
 
     nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
     nodesCheckpoint.count()
-    #     print("the number of partitions in vF df are")
-    #     print(nodesCheckpoint.rdd.getNumPartitions())
-    print("Num of nodes: {}".format(nodesCheckpoint.count()))
-    print("Num of edges: {}".format(edgesCheckpoint.count()))
+    # print("the number of partitions in vF df are")
+    # print(nodesCheckpoint.rdd.getNumPartitions())
+    # print("Num of nodes: {}".format(nodesCheckpoint.count()))
+    # print("Num of edges: {}".format(edgesCheckpoint.count()))
 
     independentSet = []
     graphs = dict()
@@ -277,10 +277,8 @@ if __name__ == "__main__":
 
     numberOfCentroids = round(nNodes / 2)
 
-    # Initialize the vertices with x,y with random values and dispX,dispY with 0
-    verticesWithCord = vertices.withColumn("xy",
-                                           Func.array(Func.rand(seed=1) * Func.lit(3), Func.rand(seed=0) * Func.lit(3))) \
-        .checkpoint()
+    # Initialize the nodes with random x,y coordinates and dispX,dispY with 0
+    verticesWithCord = vertices.withColumn("xy", Func.array(Func.rand(seed=1) * Func.lit(3), Func.rand(seed=0) * Func.lit(3))).checkpoint()
 
     # cool-down amount
     dt = t / (numIteration + 1)
@@ -377,6 +375,8 @@ if __name__ == "__main__":
         print("{} Iterations are completed".format(p, k))
         t -= dt
     updatedV = verticesWithCord.select("id", "xy")
+
+
 
     graph = GraphFrame(updatedV, edges)
     VerticesInDegrees = graph.inDegrees
