@@ -305,8 +305,7 @@ if __name__ == "__main__":
         centerBroadcast = sc.broadcast(center)
 
         # calculate center repulsive force
-        vCenter = verticesWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                         "dispCenterXY").cache()
+        vCenter = verticesWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy", "dispCenterXY").cache()
         vCenter.count()
 
         centerBroadcast.unpersist()
@@ -320,7 +319,7 @@ if __name__ == "__main__":
 
         vCentroid.unpersist()
         vCenter.unpersist()
-        #         print("rForce is calculated")
+        # print("rForce is calculated")
         gfA = GraphFrame(verticesWithCord, edges)  # .cache()
 
         # messages send to source and destination vertices to calculate displacement on node due to attractive force
@@ -377,19 +376,14 @@ if __name__ == "__main__":
     updatedV = verticesWithCord.select("id", "xy")
 
 
-
+    # Plot the force-directed graph based on the final vertices and edges' positions
     graph = GraphFrame(updatedV, edges)
     VerticesInDegrees = graph.inDegrees
     VerticesOutDegrees = graph.outDegrees
-    verticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees,
-                                                                                                on="id",
-                                                                                                how="left").na.fill(
-        value=1)
+    verticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees, on="id", how="left").na.fill(value=1)
     maxInDegree = verticesFinal.orderBy(Func.col("inDegree").desc()).take(1)[0][2]
     maxOutDegree = verticesFinal.orderBy(Func.col("outDegree").desc()).take(1)[0][2]
-    vertices_scaled_degree = verticesFinal.withColumn("scaled_inDegree",
-                                                      scale_degree("inDegree", Func.lit(maxInDegree))).withColumn(
-        "scaled_outDegree", scale_degree("outDegree", Func.lit(maxOutDegree)))
+    vertices_scaled_degree = verticesFinal.withColumn("scaled_inDegree", scale_degree("inDegree", Func.lit(maxInDegree))).withColumn("scaled_outDegree", scale_degree("outDegree", Func.lit(maxOutDegree)))
     time5 = timeit.default_timer() - startTime
     print("time taken for layout of combined levels = {}".format(time5))
 
@@ -414,20 +408,14 @@ if __name__ == "__main__":
     print("networkx graph using distribute layout is created")
 
     plt.title("{name}_{numIteration}_Iterations layout".format(name=name, numIteration=numIteration))
-    plt.savefig("{outputPath}{name}_{numIteration}_Iterations.png".format(outputPath=outputPath, name=name,
-                                                                          numIteration=numIteration), dpi=1000,
-                bbox_inches='tight')
+    plt.savefig("{outputPath}{name}_{numIteration}_Iterations.png".format(outputPath=outputPath, name=name, numIteration=numIteration), dpi=1000, bbox_inches='tight')
     print("graph is saved to the disk")
     print("Num of nodes: {}".format(updatedV.count()))
     print("Num of edges: {}".format(edges.count()))
 
     # Save the calculated position of the graph to output path
-    updatedV.coalesce(10).write.mode("overwrite").parquet(
-        "{outputPath}{name}_{numIteration}_Iterations_updatedVertices.parquet".format(outputPath=outputPath, name=name,
-                                                                                      numIteration=numIteration))
-    edges.coalesce(10).write.mode("overwrite").parquet(
-        "{outputPath}{name}_{numIteration}_Iterations_edges.parquet".format(outputPath=outputPath, name=name,
-                                                                            numIteration=numIteration))
+    updatedV.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_updatedVertices.parquet".format(outputPath=outputPath, name=name, numIteration=numIteration))
+    edges.coalesce(10).write.mode("overwrite").parquet("{outputPath}{name}_{numIteration}_Iterations_edges.parquet".format(outputPath=outputPath, name=name, numIteration=numIteration))
     print("Nodes and Edges dataframes saved to disk")
 
     # remove the checkpoint dir
