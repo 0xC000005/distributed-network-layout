@@ -20,7 +20,8 @@ mpl.use('Agg')
 # Function to calculate the associated centroid, and it distances to the vertex
 # @para it takes source vertex x,y co-ordinates as input parameter and the centroidBroadcast
 # @return the associated centroid and its distances from the vertex
-def centroidVertexAssociation(vertexCord):
+def centroidVertexAssociation(vertexCord, centroidBroadcast):
+    # TODO: fix centroidBroadcast not pre-defined issue (ERR LEVEL ISSUE!!!)
     centroidsValue = centroidBroadcast.value
     centroidLength = len(centroidsValue)
     centroidDistance = 0.0
@@ -38,7 +39,7 @@ def centroidVertexAssociation(vertexCord):
     return [centroidAssociated, centroidDistance]
 
 
-centroidVertexAssociationUdf = Func.udf(lambda z: centroidVertexAssociation(z),
+centroidVertexAssociationUdf = Func.udf(lambda z: centroidVertexAssociation(z, centerBroadcast),
                                         ArrayType(DoubleType()))
 
 
@@ -47,7 +48,7 @@ centroidVertexAssociationUdf = Func.udf(lambda z: centroidVertexAssociation(z),
 # @return the displacement on the source`s x-axis due to destinations attractive force: DoubleType()
 def aDispSrc(src, dst):
     # Constant to calculate attractive and repulsive force
-    K = math.sqrt(1 / nNodes)
+    K = math.sqrt(1 / nVertices)
     dx = (dst[0] - src[0])
     dy = (dst[1] - src[1])
 
@@ -79,7 +80,7 @@ aDispSrc = Func.udf(aDispSrc, ArrayType(DoubleType()))
 # @para it takes 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
 # @return the displacement on the dst`s x-axis due to destinations attractive force: DoubleType()
 def aDispDst(node1, node2):
-    K = math.sqrt(1 / nNodes)
+    K = math.sqrt(1 / nVertices)
     dx = (node2[0] - node1[0])
     dy = (node2[1] - node1[1])
 
@@ -107,7 +108,7 @@ aDispDst = Func.udf(aDispDst, ArrayType(DoubleType()))
 # @para it takes vertex x,y co-ordinates as input parameter
 # @return the displacement of vertex position due to centroids repulsive force
 def rForceCentroid(vertexCord):
-    K = math.sqrt(1 / nNodes)
+    K = math.sqrt(1 / nVertices)
     centroidLength = len(centroid_list)
     weight = 1
     dx = 0.0
@@ -138,7 +139,7 @@ rForceCentroid = Func.udf(rForceCentroid, ArrayType(DoubleType()))
 # @para it takes vertex x,y co-ordinates as input parameter
 # @return the displacement of vertex position due to center repulsive force
 def rForceCenter(vertexCord):
-    K = math.sqrt(1 / nNodes)
+    K = math.sqrt(1 / nVertices)
     weight = 1
     centerValue = centerBroadcast.value
     dx = (vertexCord[0] - centerValue[0])
@@ -199,8 +200,8 @@ if __name__ == "__main__":
     sqlContext = pyspark.SQLContext.getOrCreate(sc)
     sc.setLogLevel("ERROR")
 
-    # Create checkpoints so if the calculation failed, we can restore from checkpoints instead of starting all over
-    # again
+    # Mkdir place for storing the checkpoints of the nodes and edges' dataframe
+    # TODO: how is this works distributively?? hoping on every machine the following path is available? or shuffling data to one location on one machine?
     checkpointDir = outputPath + "checkpoint"
 
     try:
@@ -217,85 +218,92 @@ if __name__ == "__main__":
     # startTime = timeit.default_timer()
     InitialNumPartitions = sc.defaultParallelism
 
-    # load input edge file 
-    edges = spark.read.csv(inputPath, sep="\t", comment='#', header=None)
-    edges = edges.withColumnRenamed("_c0", "src").withColumnRenamed("_c1", "dst")
+    # load input edge file, the file consists of 2 rows, the source node ID (whoever send the message) and the
+    # destination node ID (whoever received the message)
+    edgesCheckpoint = spark.read.csv(inputPath, sep="\t", comment='#', header=None)
+    edgesCheckpoint = edgesCheckpoint.withColumnRenamed("_c0", "src").withColumnRenamed("_c1", "dst")
 
-    edgesCheckpoint = edges.checkpoint()
+    # Save a checkpoint of the edge dataframe
+    edgesCheckpoint = edgesCheckpoint.checkpoint()
+    # TODO: since the checkpoint is eager, why followed by the spark action to make it effective?
+
+    # Check https://stackoverflow.com/questions/45751113/what-is-lineage-in-spark for more on why some code here is
+    # followed by a count
+    # TODO: every count is O(n) bruh this is expensive
     edgesCheckpoint.count()
 
     # print("the number of partitions in edges df are")
     # numPartitions = edges.rdd.getNumPartitions()
     # print(numPartitions)
 
-    # Extract nodes from the edge list dataframe
-    vA = edgesCheckpoint.select(Func.col('src')).drop_duplicates() \
+    # Extract nodes from the edge list dataframe, drop repeated nodes. Here nodes are represented as IDs
+    sources = edgesCheckpoint.select(Func.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
     # print(vA.rdd.getNumPartitions())
     # print("number of unique vertices in src column: {}".format(vA.count()))
 
-    vB = edgesCheckpoint.select(Func.col('dst')).drop_duplicates() \
+    destinations = edgesCheckpoint.select(Func.col('dst')).drop_duplicates() \
         .withColumnRenamed('dst', 'id')
     # print(vB.rdd.getNumPartitions())
     # print("number of unique vertices in dst column: {}".format(vB.count()))
-    vF1 = vA.union(vB).distinct()
+    allNodes = sources.union(destinations).distinct()
 
-    nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
-    nodesCheckpoint.count()
+    # Save nodes rdd to checkpoint
+    verticesCheckpoint = allNodes.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
+    # TODO: why don't cache it? too big?
+    # TODO: why only the nodes are persisting and edge is not?
+    verticesCheckpoint.count()
     # print("the number of partitions in vF df are")
     # print(nodesCheckpoint.rdd.getNumPartitions())
     # print("Num of nodes: {}".format(nodesCheckpoint.count()))
     # print("Num of edges: {}".format(edgesCheckpoint.count()))
 
-    # Initialized the graph
-    graphs = dict()
-
     # initialize index and graphs dictionary
+    graphs = dict()
     i = 0
     # create GraphFrame object using nodes and edges dataframe
-    graphs[i] = GraphFrame(nodesCheckpoint, edgesCheckpoint)
-    currentNodes = graphs[i].vertices
+    graphs[i] = GraphFrame(verticesCheckpoint, edgesCheckpoint)
 
-    # number of nodes in the first filtration level 
-    currentNodesCounts = currentNodes.count()
-
-    currentEdges = graphs[i].edges
-    currentEdgesCounts = currentEdges.count()
-
-    # variable to stop the while loop of the selected nodes of next level of filtration is less than 3
-    currentSelectedNodes = currentNodes.count()
+    # # number of nodes in the first filtration level
+    # currentNodes = graphs[i].vertices
+    # currentNodesCounts = currentNodes.count()
+    #
+    # currentEdges = graphs[i].edges
+    # currentEdgesCounts = currentEdges.count()
+    #
+    # # variable to stop the while loop of the selected nodes of next level of filtration is less than 3
+    # currentSelectedNodes = currentNodes.count()
 
     numOfVertices = graphs[i].vertices.count()
     i = i + 1
+    # TODO: k is only used once in a print format emmm considering removing it
     k = 1
     t = 0.1
 
-    vertices = nodesCheckpoint
-    edges = edgesCheckpoint
-    nNodes = vertices.count()
+    nVertices = verticesCheckpoint.count()
 
-    numberOfCentroids = round(nNodes / 2)
+    numberOfCentroids = round(nVertices / 2)
 
     # Initialize the nodes with random x,y coordinates and dispX,dispY with 0
-    verticesWithCord = vertices.withColumn("xy", Func.array(Func.rand(seed=1) * Func.lit(3),
-                                                            Func.rand(seed=0) * Func.lit(3))).checkpoint()
+    verticesWithCord = verticesCheckpoint.withColumn("xy", Func.array(Func.rand(seed=1) * Func.lit(3),
+                                                                      Func.rand(seed=0) * Func.lit(3))).checkpoint()
 
     # cool-down amount
     dt = t / (numIteration + 1)
 
     # calculate the center repulsive force for given iteration 
     for p in range(numIteration):
+
         # calculate centroids
-        centroids = verticesWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nNodes), seed=1)
+        centroids = verticesWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nVertices), seed=1)
         centroid_list = centroids.select("xy").rdd.flatMap(lambda x: x).collect()
 
         # calculate centroids repulsive force
         vCentroid = verticesWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
-
         vCentroid.count()
 
         # find the center of the network
-        if nNodes > 0:
+        if nVertices > 0:
             x = centroids.agg(Func.avg(Func.col("xy")[0]).alias("centerX")).collect()
             y = centroids.agg(Func.avg(Func.col("xy")[0]).alias("centerX")).collect()
             center = [x[0][0], y[0][0]]
@@ -321,7 +329,8 @@ if __name__ == "__main__":
         vCentroid.unpersist()
         vCenter.unpersist()
         # print("rForce is calculated")
-        gfA = GraphFrame(verticesWithCord, edges)  # .cache()
+        gfA = GraphFrame(verticesWithCord, edgesCheckpoint)  # .cache()
+        # TODO: well not using cache is because OOM, then just keep using persist I guess?
 
         # messages send to source and destination vertices to calculate displacement on node due to attractive force
         msgToSrc = aDispSrc(AM.src['xy'], AM.dst['xy'])
@@ -351,6 +360,7 @@ if __name__ == "__main__":
             .cache()
 
         newVertices.unpersist()
+
         # Update the vertices position
         updatedVertices = newVertices2.withColumn("length",
                                                   Func.sqrt(
@@ -377,7 +387,7 @@ if __name__ == "__main__":
     updatedV = verticesWithCord.select("id", "xy")
 
     # Plot the force-directed graph based on the final vertices and edges' positions
-    graph = GraphFrame(updatedV, edges)
+    graph = GraphFrame(updatedV, edgesCheckpoint)
     VerticesInDegrees = graph.inDegrees
     VerticesOutDegrees = graph.outDegrees
     verticesFinal = updatedV.join(VerticesInDegrees, on="id", how="left").na.fill(value=1).join(VerticesOutDegrees,
@@ -405,7 +415,7 @@ if __name__ == "__main__":
     pos = dict(zip(vList, vListPos))
     print("dict of nodes and their positions are created")
 
-    nxGraphLayout = nx.from_pandas_edgelist(edges.toPandas(), source="src", target="dst")
+    nxGraphLayout = nx.from_pandas_edgelist(edgesCheckpoint.toPandas(), source="src", target="dst")
     print("networkx graph object is created")
 
     # plot the networkX graph and save it to output path
@@ -418,13 +428,13 @@ if __name__ == "__main__":
                 bbox_inches='tight')
     print("graph is saved to the disk")
     print("Num of nodes: {}".format(updatedV.count()))
-    print("Num of edges: {}".format(edges.count()))
+    print("Num of edges: {}".format(edgesCheckpoint.count()))
 
     # Save the calculated position of the graph to output path
     updatedV.coalesce(10).write.mode("overwrite").parquet(
         "{outputPath}{name}_{numIteration}_Iterations_updatedVertices.parquet".format(outputPath=outputPath, name=name,
                                                                                       numIteration=numIteration))
-    edges.coalesce(10).write.mode("overwrite").parquet(
+    edgesCheckpoint.coalesce(10).write.mode("overwrite").parquet(
         "{outputPath}{name}_{numIteration}_Iterations_edges.parquet".format(outputPath=outputPath, name=name,
                                                                             numIteration=numIteration))
     print("Nodes and Edges dataframes saved to disk")
@@ -438,3 +448,5 @@ if __name__ == "__main__":
             print("Directory does not exist: %s " % checkpointDir)
     except OSError:
         print("Directory does not exist: %s " % checkpointDir)
+
+    # TODO: potential packaging the code?
