@@ -1,4 +1,3 @@
-Python
 PySpark
 NetworkX
 Matplotlib
