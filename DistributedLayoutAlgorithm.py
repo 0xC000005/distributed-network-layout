@@ -1,53 +1,78 @@
 # import packages
-from __future__ import print_function
 import pyspark
 import math
-from pyspark.sql import functions as F
+from pyspark.sql import functions as Func
 from pyspark.sql.types import DoubleType
-from pyspark.sql.types import IntegerType
 from pyspark.sql.types import ArrayType
-from pyspark.sql.types import StringType
 import os
 import shutil
 import sys
 import timeit
 import networkx as nx
 import matplotlib as mpl
-
-mpl.use('Agg')
 import matplotlib.pyplot as plt
-
 from graphframes import GraphFrame
 from graphframes.lib import AggregateMessages as AM
 
+mpl.use('Agg')
 
-# Function to calculate the displacement on source`s x-axis due to dest attractive force
+
+# Function to calculate the associated centroid, and it distances to the vertex
+# @para it takes source vertex x,y co-ordinates as input parameter and the centroidBroadcast
+# @return the associated centroid and its distances from the vertex
+def centroidVertexAssociation(vertexCord):
+    centroidsValue = centroidBroadcast.value
+    centroidLength = len(centroidsValue)
+    centroidDistance = 0.0
+    centroidAssociated = 0.0
+    for i in range(centroidLength):
+        dx = (vertexCord[0] - centroidsValue[i][1][0])
+        dy = (vertexCord[1] - centroidsValue[i][1][1])
+        distance = math.sqrt(dx ** 2 + dy ** 2)
+        if i == 0:
+            centroidDistance = distance
+            centroidAssociated = centroidsValue[i][0]
+        if distance < centroidDistance:
+            centroidAssociated = centroidsValue[i][0]
+            centroidDistance = distance
+    return [centroidAssociated, centroidDistance]
+
+
+centroidVertexAssociationUdf = Func.udf(lambda z: centroidVertexAssociation(z),
+                                        ArrayType(DoubleType()))
+
+
+# Function to calculate the displacement on sources' x,y-axis due to dest attractive force
 # @para it takes 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
 # @return the displacement on the source`s x-axis due to destinations attractive force: DoubleType()
-def aDispSrc(node1, node2):
+def aDispSrc(src, dst):
     # Constant to calculate attractive and repulsive force
     K = math.sqrt(1 / nNodes)
-    dx = (node2[0] - node1[0])
-    dy = (node2[1] - node1[1])
+    dx = (dst[0] - src[0])
+    dy = (dst[1] - src[1])
 
     distance = math.sqrt(dx ** 2 + dy ** 2)
 
     if distance == 0:
         return [0, 0, 0]
 
+    # Minimum distance is set to be 0.01 to prevent close nodes from overlapping
+    # TODO: add an arg for users to customize minimum distance
     if distance < 0.01:
         distance = 0.01
 
-    aForce = distance / K
+    attractiveForce = distance / K
     dispX = dx / distance
     dispY = dy / distance
-    aDispX = dispX * aForce
-    aDispY = dispY * aForce
-    xy = [aDispX, aDispY, 1.0]
-    return xy
+    aDispX = dispX * attractiveForce
+    aDispY = dispY * attractiveForce
+
+    # TODO: where the 1.0 comes from?
+    dispXY = [aDispX, aDispY, 1.0]
+    return dispXY
 
 
-aDispSrc = F.udf(aDispSrc, ArrayType(DoubleType()))
+aDispSrc = Func.udf(aDispSrc, ArrayType(DoubleType()))
 
 
 # Function to calculate the displacement on dst`s x-axis due to dest attractive force
