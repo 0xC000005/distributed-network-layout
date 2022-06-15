@@ -1,0 +1,564 @@
+Unloading StdEnv/2020
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) mii/1.1.1
+
+
+The following have been reloaded with a version change:
+  1) python/3.7.4 => python/3.6.3
+
+starting org.apache.spark.deploy.master.Master, logging to /home/maxzhang/.spark/2.4.4/log/spark-62041433-org.apache.spark.deploy.master.Master-1-gra1211.out
+Master URL = spark://gra1211:7077
+Number of Workers = 19
+https://repos.spark-packages.org added as a remote repository with the name: repo-1
+Ivy Default Cache set to: /home/maxzhang/.ivy2/cache
+The jars for the packages stored in: /home/maxzhang/.ivy2/jars
+:: loading settings :: url = jar:file:/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+graphframes#graphframes added as a dependency
+:: resolving dependencies :: org.apache.spark#spark-submit-parent-c0df9154-50c5-478b-bbe8-90eb22d91c4c;1.0
+	confs: [default]
+	found graphframes#graphframes;0.8.0-spark2.4-s_2.11 in repo-1
+	found org.slf4j#slf4j-api;1.7.16 in central
+:: resolution report :: resolve 211ms :: artifacts dl 18ms
+	:: modules in use:
+	graphframes#graphframes;0.8.0-spark2.4-s_2.11 from repo-1 in [default]
+	org.slf4j#slf4j-api;1.7.16 from central in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   2   |   0   |   0   |   0   ||   2   |   0   |
+	---------------------------------------------------------------------
+:: retrieving :: org.apache.spark#spark-submit-parent-c0df9154-50c5-478b-bbe8-90eb22d91c4c
+	confs: [default]
+	0 artifacts copied, 2 already retrieved (0kB/8ms)
+22/06/13 19:39:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+22/06/13 19:40:07 INFO SparkContext: Running Spark version 2.4.4
+22/06/13 19:40:07 INFO SparkContext: Submitted application: graph_edgelist
+22/06/13 19:40:07 INFO SecurityManager: Changing view acls to: maxzhang
+22/06/13 19:40:07 INFO SecurityManager: Changing modify acls to: maxzhang
+22/06/13 19:40:07 INFO SecurityManager: Changing view acls groups to: 
+22/06/13 19:40:07 INFO SecurityManager: Changing modify acls groups to: 
+22/06/13 19:40:07 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(maxzhang); groups with view permissions: Set(); users  with modify permissions: Set(maxzhang); groups with modify permissions: Set()
+22/06/13 19:40:07 INFO Utils: Successfully started service 'sparkDriver' on port 38606.
+22/06/13 19:40:07 INFO SparkEnv: Registering MapOutputTracker
+22/06/13 19:40:07 INFO SparkEnv: Registering BlockManagerMaster
+22/06/13 19:40:08 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+22/06/13 19:40:08 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+22/06/13 19:40:08 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-d4eb64d7-84df-4e26-afe1-02a88ef2ff70
+22/06/13 19:40:08 INFO MemoryStore: MemoryStore started with capacity 53.2 GB
+22/06/13 19:40:08 INFO SparkEnv: Registering OutputCommitCoordinator
+22/06/13 19:40:08 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+22/06/13 19:40:08 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://gra1211.graham.sharcnet:4040
+22/06/13 19:40:08 INFO SparkContext: Added JAR file:///home/maxzhang/.ivy2/jars/graphframes_graphframes-0.8.0-spark2.4-s_2.11.jar at spark://gra1211.graham.sharcnet:38606/jars/graphframes_graphframes-0.8.0-spark2.4-s_2.11.jar with timestamp 1655163608250
+22/06/13 19:40:08 INFO SparkContext: Added JAR file:///home/maxzhang/.ivy2/jars/org.slf4j_slf4j-api-1.7.16.jar at spark://gra1211.graham.sharcnet:38606/jars/org.slf4j_slf4j-api-1.7.16.jar with timestamp 1655163608251
+22/06/13 19:40:08 INFO SparkContext: Added file file:///home/maxzhang/.ivy2/jars/graphframes_graphframes-0.8.0-spark2.4-s_2.11.jar at spark://gra1211.graham.sharcnet:38606/files/graphframes_graphframes-0.8.0-spark2.4-s_2.11.jar with timestamp 1655163608263
+22/06/13 19:40:08 INFO Utils: Copying /home/maxzhang/.ivy2/jars/graphframes_graphframes-0.8.0-spark2.4-s_2.11.jar to /tmp/spark-8a8587f1-343b-4e3e-89ff-d5e6e141fdac/userFiles-3462f946-e726-44b2-bd33-f05293ddc58f/graphframes_graphframes-0.8.0-spark2.4-s_2.11.jar
+22/06/13 19:40:08 INFO SparkContext: Added file file:///home/maxzhang/.ivy2/jars/org.slf4j_slf4j-api-1.7.16.jar at spark://gra1211.graham.sharcnet:38606/files/org.slf4j_slf4j-api-1.7.16.jar with timestamp 1655163608284
+22/06/13 19:40:08 INFO Utils: Copying /home/maxzhang/.ivy2/jars/org.slf4j_slf4j-api-1.7.16.jar to /tmp/spark-8a8587f1-343b-4e3e-89ff-d5e6e141fdac/userFiles-3462f946-e726-44b2-bd33-f05293ddc58f/org.slf4j_slf4j-api-1.7.16.jar
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://gra1211:7077...
+22/06/13 19:40:08 INFO TransportClientFactory: Successfully created connection to gra1211/10.29.96.66:7077 after 38 ms (0 ms spent in bootstraps)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20220613194008-0000
+22/06/13 19:40:08 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 46405.
+22/06/13 19:40:08 INFO NettyBlockTransferService: Server created on gra1211.graham.sharcnet:46405
+22/06/13 19:40:08 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/0 on worker-20220613193952-10.29.96.152-41878 (10.29.96.152:41878) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/0 on hostPort 10.29.96.152:41878 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/1 on worker-20220613193952-10.29.96.148-45661 (10.29.96.148:45661) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/1 on hostPort 10.29.96.148:45661 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/2 on worker-20220613193943-10.29.96.82-44632 (10.29.96.82:44632) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/2 on hostPort 10.29.96.82:44632 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/3 on worker-20220613193943-10.29.96.150-35637 (10.29.96.150:35637) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/3 on hostPort 10.29.96.150:35637 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/4 on worker-20220613193943-10.29.96.89-46419 (10.29.96.89:46419) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/4 on hostPort 10.29.96.89:46419 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/5 on worker-20220613193943-10.29.96.150-36813 (10.29.96.150:36813) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/5 on hostPort 10.29.96.150:36813 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/6 on worker-20220613193952-10.29.96.71-35658 (10.29.96.71:35658) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/6 on hostPort 10.29.96.71:35658 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/7 on worker-20220613193946-10.29.96.105-41534 (10.29.96.105:41534) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/7 on hostPort 10.29.96.105:41534 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/8 on worker-20220613193952-10.29.96.174-46770 (10.29.96.174:46770) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/8 on hostPort 10.29.96.174:46770 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/9 on worker-20220613193952-10.29.96.152-35078 (10.29.96.152:35078) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/9 on hostPort 10.29.96.152:35078 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/10 on worker-20220613193943-10.29.96.150-41360 (10.29.96.150:41360) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/10 on hostPort 10.29.96.150:41360 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/11 on worker-20220613193943-10.29.96.154-38898 (10.29.96.154:38898) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/11 on hostPort 10.29.96.154:38898 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/12 on worker-20220613193943-10.29.96.155-38952 (10.29.96.155:38952) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/12 on hostPort 10.29.96.155:38952 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/13 on worker-20220613193952-10.29.96.71-37752 (10.29.96.71:37752) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/13 on hostPort 10.29.96.71:37752 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/14 on worker-20220613193943-10.29.96.156-42347 (10.29.96.156:42347) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/14 on hostPort 10.29.96.156:42347 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/15 on worker-20220613193952-10.29.96.174-38368 (10.29.96.174:38368) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/15 on hostPort 10.29.96.174:38368 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/16 on worker-20220613193946-10.29.96.97-46399 (10.29.96.97:46399) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/16 on hostPort 10.29.96.97:46399 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/17 on worker-20220613193952-10.29.96.87-34079 (10.29.96.87:34079) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/17 on hostPort 10.29.96.87:34079 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/18 on worker-20220613193943-10.29.96.150-33884 (10.29.96.150:33884) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/18 on hostPort 10.29.96.150:33884 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/19 on worker-20220613193946-10.29.96.105-42517 (10.29.96.105:42517) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/19 on hostPort 10.29.96.105:42517 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/20 on worker-20220613193952-10.29.96.87-41724 (10.29.96.87:41724) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/20 on hostPort 10.29.96.87:41724 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/21 on worker-20220613193946-10.29.96.105-35198 (10.29.96.105:35198) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/21 on hostPort 10.29.96.105:35198 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/22 on worker-20220613193946-10.29.96.176-43093 (10.29.96.176:43093) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/22 on hostPort 10.29.96.176:43093 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/23 on worker-20220613193953-10.29.96.160-40423 (10.29.96.160:40423) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/23 on hostPort 10.29.96.160:40423 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/24 on worker-20220613193943-10.29.96.154-39363 (10.29.96.154:39363) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/24 on hostPort 10.29.96.154:39363 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/25 on worker-20220613193943-10.29.96.173-40115 (10.29.96.173:40115) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/25 on hostPort 10.29.96.173:40115 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/26 on worker-20220613193952-10.29.96.87-34560 (10.29.96.87:34560) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/26 on hostPort 10.29.96.87:34560 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/27 on worker-20220613193952-10.29.96.174-34563 (10.29.96.174:34563) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/27 on hostPort 10.29.96.174:34563 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/28 on worker-20220613193943-10.29.96.155-45220 (10.29.96.155:45220) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/28 on hostPort 10.29.96.155:45220 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/29 on worker-20220613193943-10.29.96.156-35223 (10.29.96.156:35223) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/29 on hostPort 10.29.96.156:35223 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/30 on worker-20220613193943-10.29.96.156-42802 (10.29.96.156:42802) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/30 on hostPort 10.29.96.156:42802 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/31 on worker-20220613193943-10.29.96.86-41639 (10.29.96.86:41639) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/31 on hostPort 10.29.96.86:41639 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/32 on worker-20220613193943-10.29.96.89-37094 (10.29.96.89:37094) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/32 on hostPort 10.29.96.89:37094 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/33 on worker-20220613193952-10.29.96.67-35541 (10.29.96.67:35541) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/33 on hostPort 10.29.96.67:35541 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/34 on worker-20220613193946-10.29.96.105-42873 (10.29.96.105:42873) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/34 on hostPort 10.29.96.105:42873 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/35 on worker-20220613193943-10.29.96.86-44520 (10.29.96.86:44520) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/35 on hostPort 10.29.96.86:44520 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/36 on worker-20220613193952-10.29.96.67-46350 (10.29.96.67:46350) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/36 on hostPort 10.29.96.67:46350 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/37 on worker-20220613193946-10.29.96.176-41979 (10.29.96.176:41979) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/37 on hostPort 10.29.96.176:41979 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/38 on worker-20220613193943-10.29.96.86-42396 (10.29.96.86:42396) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/38 on hostPort 10.29.96.86:42396 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, gra1211.graham.sharcnet, 46405, None)
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/39 on worker-20220613193943-10.29.96.90-38909 (10.29.96.90:38909) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/39 on hostPort 10.29.96.90:38909 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/40 on worker-20220613193952-10.29.96.148-44395 (10.29.96.148:44395) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/40 on hostPort 10.29.96.148:44395 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/41 on worker-20220613193946-10.29.96.97-45666 (10.29.96.97:45666) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/41 on hostPort 10.29.96.97:45666 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/42 on worker-20220613193943-10.29.96.150-36203 (10.29.96.150:36203) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/42 on hostPort 10.29.96.150:36203 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/43 on worker-20220613193943-10.29.96.155-33464 (10.29.96.155:33464) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/43 on hostPort 10.29.96.155:33464 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/44 on worker-20220613193943-10.29.96.173-42857 (10.29.96.173:42857) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/44 on hostPort 10.29.96.173:42857 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/45 on worker-20220613193943-10.29.96.173-40467 (10.29.96.173:40467) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/45 on hostPort 10.29.96.173:40467 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/46 on worker-20220613193943-10.29.96.90-44159 (10.29.96.90:44159) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/46 on hostPort 10.29.96.90:44159 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/47 on worker-20220613193943-10.29.96.86-43417 (10.29.96.86:43417) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/47 on hostPort 10.29.96.86:43417 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/48 on worker-20220613193943-10.29.96.155-33017 (10.29.96.155:33017) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/48 on hostPort 10.29.96.155:33017 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/49 on worker-20220613193946-10.29.96.97-36270 (10.29.96.97:36270) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/49 on hostPort 10.29.96.97:36270 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/50 on worker-20220613193943-10.29.96.90-42254 (10.29.96.90:42254) with 5 core(s)
+22/06/13 19:40:08 INFO BlockManagerMasterEndpoint: Registering block manager gra1211.graham.sharcnet:46405 with 53.2 GB RAM, BlockManagerId(driver, gra1211.graham.sharcnet, 46405, None)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/50 on hostPort 10.29.96.90:42254 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/51 on worker-20220613193943-10.29.96.82-36059 (10.29.96.82:36059) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/51 on hostPort 10.29.96.82:36059 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/52 on worker-20220613193952-10.29.96.71-43825 (10.29.96.71:43825) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/52 on hostPort 10.29.96.71:43825 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/53 on worker-20220613193952-10.29.96.71-37539 (10.29.96.71:37539) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/53 on hostPort 10.29.96.71:37539 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/54 on worker-20220613193943-10.29.96.90-37260 (10.29.96.90:37260) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/54 on hostPort 10.29.96.90:37260 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/55 on worker-20220613193952-10.29.96.67-35413 (10.29.96.67:35413) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/55 on hostPort 10.29.96.67:35413 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/56 on worker-20220613193952-10.29.96.148-39878 (10.29.96.148:39878) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/56 on hostPort 10.29.96.148:39878 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/57 on worker-20220613193943-10.29.96.82-37580 (10.29.96.82:37580) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/57 on hostPort 10.29.96.82:37580 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/58 on worker-20220613193952-10.29.96.152-33208 (10.29.96.152:33208) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/58 on hostPort 10.29.96.152:33208 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/59 on worker-20220613193952-10.29.96.174-33609 (10.29.96.174:33609) with 5 core(s)
+22/06/13 19:40:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, gra1211.graham.sharcnet, 46405, None)
+22/06/13 19:40:08 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, gra1211.graham.sharcnet, 46405, None)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/59 on hostPort 10.29.96.174:33609 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/60 on worker-20220613193952-10.29.96.148-39537 (10.29.96.148:39537) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/60 on hostPort 10.29.96.148:39537 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/61 on worker-20220613193943-10.29.96.173-34868 (10.29.96.173:34868) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/61 on hostPort 10.29.96.173:34868 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/62 on worker-20220613193943-10.29.96.89-42247 (10.29.96.89:42247) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/62 on hostPort 10.29.96.89:42247 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/63 on worker-20220613193953-10.29.96.160-41765 (10.29.96.160:41765) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/63 on hostPort 10.29.96.160:41765 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/64 on worker-20220613193952-10.29.96.152-45408 (10.29.96.152:45408) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/64 on hostPort 10.29.96.152:45408 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/65 on worker-20220613193952-10.29.96.152-43798 (10.29.96.152:43798) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/65 on hostPort 10.29.96.152:43798 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/66 on worker-20220613193943-10.29.96.89-38766 (10.29.96.89:38766) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/66 on hostPort 10.29.96.89:38766 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/67 on worker-20220613193952-10.29.96.148-33363 (10.29.96.148:33363) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/67 on hostPort 10.29.96.148:33363 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/68 on worker-20220613193946-10.29.96.176-37354 (10.29.96.176:37354) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/68 on hostPort 10.29.96.176:37354 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/69 on worker-20220613193946-10.29.96.97-45085 (10.29.96.97:45085) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/69 on hostPort 10.29.96.97:45085 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/70 on worker-20220613193943-10.29.96.89-37628 (10.29.96.89:37628) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/70 on hostPort 10.29.96.89:37628 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/71 on worker-20220613193943-10.29.96.86-41447 (10.29.96.86:41447) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/71 on hostPort 10.29.96.86:41447 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/72 on worker-20220613193953-10.29.96.160-40298 (10.29.96.160:40298) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/72 on hostPort 10.29.96.160:40298 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/73 on worker-20220613193943-10.29.96.173-38243 (10.29.96.173:38243) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/73 on hostPort 10.29.96.173:38243 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/74 on worker-20220613193952-10.29.96.87-41108 (10.29.96.87:41108) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/74 on hostPort 10.29.96.87:41108 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/75 on worker-20220613193952-10.29.96.71-34667 (10.29.96.71:34667) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/75 on hostPort 10.29.96.71:34667 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/76 on worker-20220613193952-10.29.96.174-44069 (10.29.96.174:44069) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/76 on hostPort 10.29.96.174:44069 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/77 on worker-20220613193943-10.29.96.156-40582 (10.29.96.156:40582) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/77 on hostPort 10.29.96.156:40582 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/78 on worker-20220613193952-10.29.96.148-45551 (10.29.96.148:45551) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/78 on hostPort 10.29.96.148:45551 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/79 on worker-20220613193943-10.29.96.89-32964 (10.29.96.89:32964) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/79 on hostPort 10.29.96.89:32964 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/80 on worker-20220613193953-10.29.96.160-38419 (10.29.96.160:38419) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/80 on hostPort 10.29.96.160:38419 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/81 on worker-20220613193952-10.29.96.87-34801 (10.29.96.87:34801) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/81 on hostPort 10.29.96.87:34801 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/82 on worker-20220613193943-10.29.96.86-33508 (10.29.96.86:33508) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/82 on hostPort 10.29.96.86:33508 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/83 on worker-20220613193943-10.29.96.82-38148 (10.29.96.82:38148) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/83 on hostPort 10.29.96.82:38148 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/84 on worker-20220613193943-10.29.96.86-35184 (10.29.96.86:35184) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/84 on hostPort 10.29.96.86:35184 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/85 on worker-20220613193952-10.29.96.174-34128 (10.29.96.174:34128) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/85 on hostPort 10.29.96.174:34128 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/86 on worker-20220613193943-10.29.96.155-36866 (10.29.96.155:36866) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/86 on hostPort 10.29.96.155:36866 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/87 on worker-20220613193952-10.29.96.174-42043 (10.29.96.174:42043) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/87 on hostPort 10.29.96.174:42043 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/88 on worker-20220613193952-10.29.96.71-37305 (10.29.96.71:37305) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/88 on hostPort 10.29.96.71:37305 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/89 on worker-20220613193953-10.29.96.160-41425 (10.29.96.160:41425) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/89 on hostPort 10.29.96.160:41425 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/90 on worker-20220613193943-10.29.96.82-36205 (10.29.96.82:36205) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/90 on hostPort 10.29.96.82:36205 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/91 on worker-20220613193943-10.29.96.89-39673 (10.29.96.89:39673) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/91 on hostPort 10.29.96.89:39673 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/92 on worker-20220613193952-10.29.96.67-41896 (10.29.96.67:41896) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/92 on hostPort 10.29.96.67:41896 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/93 on worker-20220613193946-10.29.96.97-37412 (10.29.96.97:37412) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/93 on hostPort 10.29.96.97:37412 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/94 on worker-20220613193943-10.29.96.90-40520 (10.29.96.90:40520) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/94 on hostPort 10.29.96.90:40520 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/95 on worker-20220613193943-10.29.96.82-46559 (10.29.96.82:46559) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/95 on hostPort 10.29.96.82:46559 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/96 on worker-20220613193943-10.29.96.89-39117 (10.29.96.89:39117) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/96 on hostPort 10.29.96.89:39117 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/97 on worker-20220613193952-10.29.96.71-41484 (10.29.96.71:41484) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/97 on hostPort 10.29.96.71:41484 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/98 on worker-20220613193946-10.29.96.176-39726 (10.29.96.176:39726) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/98 on hostPort 10.29.96.176:39726 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/99 on worker-20220613193943-10.29.96.154-45908 (10.29.96.154:45908) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/99 on hostPort 10.29.96.154:45908 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/100 on worker-20220613193946-10.29.96.97-46042 (10.29.96.97:46042) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/100 on hostPort 10.29.96.97:46042 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/101 on worker-20220613193952-10.29.96.148-45506 (10.29.96.148:45506) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/101 on hostPort 10.29.96.148:45506 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/102 on worker-20220613193952-10.29.96.152-36101 (10.29.96.152:36101) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/102 on hostPort 10.29.96.152:36101 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/103 on worker-20220613193943-10.29.96.90-33869 (10.29.96.90:33869) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/103 on hostPort 10.29.96.90:33869 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/104 on worker-20220613193943-10.29.96.156-43664 (10.29.96.156:43664) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/104 on hostPort 10.29.96.156:43664 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/105 on worker-20220613193943-10.29.96.150-40331 (10.29.96.150:40331) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/105 on hostPort 10.29.96.150:40331 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/106 on worker-20220613193952-10.29.96.152-38678 (10.29.96.152:38678) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/106 on hostPort 10.29.96.152:38678 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/107 on worker-20220613193946-10.29.96.176-36097 (10.29.96.176:36097) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/107 on hostPort 10.29.96.176:36097 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/108 on worker-20220613193943-10.29.96.156-41185 (10.29.96.156:41185) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/108 on hostPort 10.29.96.156:41185 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/109 on worker-20220613193946-10.29.96.105-40026 (10.29.96.105:40026) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/109 on hostPort 10.29.96.105:40026 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/110 on worker-20220613193946-10.29.96.97-46097 (10.29.96.97:46097) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/110 on hostPort 10.29.96.97:46097 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/111 on worker-20220613193952-10.29.96.67-36744 (10.29.96.67:36744) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/111 on hostPort 10.29.96.67:36744 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/112 on worker-20220613193943-10.29.96.154-43926 (10.29.96.154:43926) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/112 on hostPort 10.29.96.154:43926 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/113 on worker-20220613193943-10.29.96.82-42919 (10.29.96.82:42919) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/113 on hostPort 10.29.96.82:42919 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/114 on worker-20220613193943-10.29.96.155-44819 (10.29.96.155:44819) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/114 on hostPort 10.29.96.155:44819 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/115 on worker-20220613193943-10.29.96.150-46296 (10.29.96.150:46296) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/115 on hostPort 10.29.96.150:46296 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/116 on worker-20220613193952-10.29.96.67-33539 (10.29.96.67:33539) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/116 on hostPort 10.29.96.67:33539 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/117 on worker-20220613193952-10.29.96.67-37549 (10.29.96.67:37549) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/117 on hostPort 10.29.96.67:37549 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/118 on worker-20220613193952-10.29.96.152-35354 (10.29.96.152:35354) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/118 on hostPort 10.29.96.152:35354 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/119 on worker-20220613193946-10.29.96.105-38092 (10.29.96.105:38092) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/119 on hostPort 10.29.96.105:38092 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/120 on worker-20220613193943-10.29.96.154-41979 (10.29.96.154:41979) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/120 on hostPort 10.29.96.154:41979 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/121 on worker-20220613193952-10.29.96.148-34944 (10.29.96.148:34944) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/121 on hostPort 10.29.96.148:34944 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/122 on worker-20220613193943-10.29.96.154-44810 (10.29.96.154:44810) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/122 on hostPort 10.29.96.154:44810 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/123 on worker-20220613193943-10.29.96.156-37588 (10.29.96.156:37588) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/123 on hostPort 10.29.96.156:37588 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/124 on worker-20220613193943-10.29.96.86-34102 (10.29.96.86:34102) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/124 on hostPort 10.29.96.86:34102 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/125 on worker-20220613193952-10.29.96.67-36557 (10.29.96.67:36557) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/125 on hostPort 10.29.96.67:36557 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/126 on worker-20220613193943-10.29.96.155-35349 (10.29.96.155:35349) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/126 on hostPort 10.29.96.155:35349 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/127 on worker-20220613193943-10.29.96.90-35028 (10.29.96.90:35028) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/127 on hostPort 10.29.96.90:35028 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/128 on worker-20220613193952-10.29.96.87-40632 (10.29.96.87:40632) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/128 on hostPort 10.29.96.87:40632 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/129 on worker-20220613193953-10.29.96.160-45634 (10.29.96.160:45634) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/129 on hostPort 10.29.96.160:45634 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/130 on worker-20220613193952-10.29.96.87-38933 (10.29.96.87:38933) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/130 on hostPort 10.29.96.87:38933 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/131 on worker-20220613193943-10.29.96.173-37853 (10.29.96.173:37853) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/131 on hostPort 10.29.96.173:37853 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/132 on worker-20220613193946-10.29.96.176-40074 (10.29.96.176:40074) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/132 on hostPort 10.29.96.176:40074 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/133 on worker-20220613193943-10.29.96.154-35091 (10.29.96.154:35091) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/133 on hostPort 10.29.96.154:35091 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/134 on worker-20220613193943-10.29.96.173-44579 (10.29.96.173:44579) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/134 on hostPort 10.29.96.173:44579 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/135 on worker-20220613193952-10.29.96.71-33187 (10.29.96.71:33187) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/135 on hostPort 10.29.96.71:33187 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/136 on worker-20220613193952-10.29.96.174-37261 (10.29.96.174:37261) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/136 on hostPort 10.29.96.174:37261 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/137 on worker-20220613193943-10.29.96.154-34652 (10.29.96.154:34652) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/137 on hostPort 10.29.96.154:34652 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/138 on worker-20220613193946-10.29.96.105-36801 (10.29.96.105:36801) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/138 on hostPort 10.29.96.105:36801 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/139 on worker-20220613193953-10.29.96.160-34456 (10.29.96.160:34456) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/139 on hostPort 10.29.96.160:34456 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/140 on worker-20220613193952-10.29.96.87-39296 (10.29.96.87:39296) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/140 on hostPort 10.29.96.87:39296 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/141 on worker-20220613193946-10.29.96.105-44986 (10.29.96.105:44986) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/141 on hostPort 10.29.96.105:44986 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/142 on worker-20220613193943-10.29.96.155-38531 (10.29.96.155:38531) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/142 on hostPort 10.29.96.155:38531 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/143 on worker-20220613193943-10.29.96.90-37617 (10.29.96.90:37617) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/143 on hostPort 10.29.96.90:37617 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/144 on worker-20220613193946-10.29.96.176-33017 (10.29.96.176:33017) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/144 on hostPort 10.29.96.176:33017 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/145 on worker-20220613193946-10.29.96.176-37642 (10.29.96.176:37642) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/145 on hostPort 10.29.96.176:37642 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/146 on worker-20220613193943-10.29.96.150-45645 (10.29.96.150:45645) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/146 on hostPort 10.29.96.150:45645 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/147 on worker-20220613193943-10.29.96.82-43682 (10.29.96.82:43682) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/147 on hostPort 10.29.96.82:43682 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/148 on worker-20220613193953-10.29.96.160-34982 (10.29.96.160:34982) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/148 on hostPort 10.29.96.160:34982 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/149 on worker-20220613193943-10.29.96.173-42684 (10.29.96.173:42684) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/149 on hostPort 10.29.96.173:42684 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/150 on worker-20220613193943-10.29.96.156-36422 (10.29.96.156:36422) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/150 on hostPort 10.29.96.156:36422 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20220613194008-0000/151 on worker-20220613193946-10.29.96.97-46508 (10.29.96.97:46508) with 5 core(s)
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: Granted executor ID app-20220613194008-0000/151 on hostPort 10.29.96.97:46508 with 5 core(s), 16.0 GB RAM
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/3 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/15 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/7 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/12 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/9 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/10 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/0 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/2 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/4 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/20 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/24 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/28 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/17 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/16 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/26 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/13 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/23 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/8 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/14 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/27 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/5 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/19 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/1 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/6 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/42 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/18 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/22 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/41 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/49 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/11 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/37 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/43 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/51 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/25 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/36 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/39 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/55 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/33 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/34 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/21 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/40 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/63 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/30 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/59 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/50 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/61 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/29 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/31 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/48 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/62 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/54 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/46 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/77 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/69 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/45 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/56 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/47 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/38 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/57 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/68 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/64 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/65 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/79 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/67 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/53 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/75 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/85 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/87 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/76 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/73 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/78 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/44 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/100 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/66 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/105 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/81 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/90 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/83 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/74 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/118 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/82 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/32 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/84 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/70 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/60 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/110 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/89 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/108 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/93 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/52 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/95 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/99 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/71 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/97 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/98 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/88 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/116 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/92 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/58 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/86 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/94 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/104 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/91 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/102 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/132 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/146 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/125 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/117 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/121 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/119 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/124 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/103 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/151 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/101 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/131 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/145 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/107 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/127 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/133 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/112 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/129 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/35 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/113 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/128 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/144 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/106 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/141 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/137 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/143 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/138 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/72 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/135 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/142 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/120 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/126 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/139 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/114 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/134 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/150 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/111 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/122 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/140 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/130 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/147 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/148 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/96 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/149 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/123 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/136 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/115 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/80 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20220613194008-0000/109 is now RUNNING
+22/06/13 19:40:08 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+22/06/13 19:40:08 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/scratch/maxzhang/distributed-network-layout/spark-warehouse').
+22/06/13 19:40:08 INFO SharedState: Warehouse path is 'file:/scratch/maxzhang/distributed-network-layout/spark-warehouse'.
+22/06/13 19:40:09 INFO StateStoreCoordinatorRef: Registered StateStoreCoordinator endpoint
+Creation of the directory /testOuput/checkpoint failed
+Traceback (most recent call last):
+  File "/scratch/maxzhang/distributed-network-layout/DistributedLayoutAlgorithm.py", line 197, in <module>
+    sc.setCheckpointDir(checkpintDir)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/python/lib/pyspark.zip/pyspark/context.py", line 942, in setCheckpointDir
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/python/lib/py4j-0.10.7-src.zip/py4j/java_gateway.py", line 1257, in __call__
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/python/lib/pyspark.zip/pyspark/sql/utils.py", line 63, in deco
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/python/lib/py4j-0.10.7-src.zip/py4j/protocol.py", line 328, in get_return_value
+py4j.protocol.Py4JJavaError: An error occurred while calling o48.setCheckpointDir.
+: java.io.FileNotFoundException: File /testOuput/checkpoint/398df76f-782f-4f09-9c94-0e33bfa7404b does not exist
+	at org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:611)
+	at org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:824)
+	at org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:601)
+	at org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:421)
+	at org.apache.spark.SparkContext$$anonfun$setCheckpointDir$2.apply(SparkContext.scala:2351)
+	at org.apache.spark.SparkContext$$anonfun$setCheckpointDir$2.apply(SparkContext.scala:2347)
+	at scala.Option.map(Option.scala:146)
+	at org.apache.spark.SparkContext.setCheckpointDir(SparkContext.scala:2347)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.GatewayConnection.run(GatewayConnection.java:238)
+	at java.lang.Thread.run(Thread.java:748)
+
+srun: error: gra1211: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=62041433.1
+srun: forcing job termination
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+stopping org.apache.spark.deploy.master.Master
