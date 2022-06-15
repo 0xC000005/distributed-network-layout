@@ -14,7 +14,6 @@
 cd $SLURM_SUBMIT_DIR
 export SPARK_LOG_DIR=$SCRATCH
 #import required modules
-module load CCEnv
 module load nixpkgs/16.09
 module load spark/2.4.4
 module load scipy-stack
