@@ -204,14 +204,20 @@ if __name__ == "__main__":
     # TODO: how is this works distributively?? hoping on every machine the following path is available? or shuffling data to one location on one machine?
     checkpointDir = outputPath + "checkpoint"
 
-    try:
-        if os.path.exists(checkpointDir):
-            print("Checkpoint directory already exist")
-        else:
-            os.mkdir(checkpointDir)
-            print("Successfully created the directory %s " % checkpointDir)
-    except OSError:
-        print("Creation of the directory %s failed" % checkpointDir)
+    # try:
+    #     if os.path.exists(checkpointDir):
+    #         print("Checkpoint directory already exist")
+    #     else:
+    #         os.mkdir(checkpointDir)
+    #         print("Successfully created the directory %s " % checkpointDir)
+    # except OSError:
+    #     print("Creation of the directory %s failed" % checkpointDir)
+
+    if os.path.exists(checkpointDir):
+        print("Checkpoint directory already exist")
+    else:
+        os.mkdir(checkpointDir)
+        print("Successfully created the directory %s " % checkpointDir)
 
     sc.setCheckpointDir(checkpointDir)
 
