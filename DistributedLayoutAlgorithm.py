@@ -185,14 +185,20 @@ if __name__ == "__main__":
   
     checkpintDir = outputPath+"checkpoint"
     
-    try:
-        if os.path.exists(checkpintDir):
-            print("Checkpoint directory already exist")
-        else:
-            os.mkdir(checkpintDir)
-            print ("Successfully created the directory %s " % checkpintDir)
-    except OSError:
-        print ("Creation of the directory %s failed" % checkpintDir)
+    # try:
+    #     if os.path.exists(checkpintDir):
+    #         print("Checkpoint directory already exist")
+    #     else:
+    #         os.mkdir(checkpintDir)
+    #         print ("Successfully created the directory %s " % checkpintDir)
+    # except OSError:
+    #     print ("Creation of the directory %s failed" % checkpintDir)
+
+    if os.path.exists(checkpintDir):
+        print("Checkpoint directory already exist")
+    else:
+        os.mkdir(checkpintDir)
+        print("Successfully created the directory %s " % checkpintDir)
     
     sc.setCheckpointDir(checkpintDir)
 
