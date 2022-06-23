@@ -1,0 +1,90 @@
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) mii/1.1.1
+
+
+The following have been reloaded with a version change:
+  1) python/3.7.4 => python/3.6.3
+
+chown: changing ownership of '/home/p/primath/maxzhang/.spark/2.4.4/log': Read-only file system
+starting org.apache.spark.deploy.master.Master, logging to /home/p/primath/maxzhang/.spark/2.4.4/log/spark-7591103-org.apache.spark.deploy.master.Master-1-nia1854.scinet.local.out
+/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/sbin/spark-daemon.sh: line 128: /home/p/primath/maxzhang/.spark/2.4.4/log/spark-7591103-org.apache.spark.deploy.master.Master-1-nia1854.scinet.local.out: Read-only file system
+failed to launch: nice -n 0 /cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/bin/spark-class org.apache.spark.deploy.master.Master --host nia1854 --port 7077 --webui-port 8080
+tail: cannot open '/home/p/primath/maxzhang/.spark/2.4.4/log/spark-7591103-org.apache.spark.deploy.master.Master-1-nia1854.scinet.local.out' for reading: No such file or directory
+full log in /home/p/primath/maxzhang/.spark/2.4.4/log/spark-7591103-org.apache.spark.deploy.master.Master-1-nia1854.scinet.local.out
+Master URL = spark://nia1854:7077
+Number of Workers = 3
+srun: Warning: can't honor --ntasks-per-node set to 1 which doesn't match the requested tasks 152 with the number of requested nodes 3. Ignoring --ntasks-per-node.
+srun: error: Unable to create step for job 7591103: More processors requested than permitted
+https://repos.spark-packages.org added as a remote repository with the name: repo-1
+Ivy Default Cache set to: /home/p/primath/maxzhang/.ivy2/cache
+The jars for the packages stored in: /home/p/primath/maxzhang/.ivy2/jars
+:: loading settings :: url = jar:file:/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+graphframes#graphframes added as a dependency
+:: resolving dependencies :: org.apache.spark#spark-submit-parent-4ebbc17f-554e-41c3-94d5-97a20d32038f;1.0
+	confs: [default]
+Exception in thread "main" java.io.FileNotFoundException: /home/p/primath/maxzhang/.ivy2/cache/resolved-org.apache.spark-spark-submit-parent-4ebbc17f-554e-41c3-94d5-97a20d32038f-1.0.xml (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorWriter.write(XmlModuleDescriptorWriter.java:70)
+	at org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorWriter.write(XmlModuleDescriptorWriter.java:62)
+	at org.apache.ivy.core.module.descriptor.DefaultModuleDescriptor.toIvyFile(DefaultModuleDescriptor.java:563)
+	at org.apache.ivy.core.cache.DefaultResolutionCacheManager.saveResolvedModuleDescriptor(DefaultResolutionCacheManager.java:176)
+	at org.apache.ivy.core.resolve.ResolveEngine.resolve(ResolveEngine.java:245)
+	at org.apache.ivy.Ivy.resolve(Ivy.java:523)
+	at org.apache.spark.deploy.SparkSubmitUtils$.resolveMavenCoordinates(SparkSubmit.scala:1300)
+	at org.apache.spark.deploy.DependencyUtils$.resolveMavenDependencies(DependencyUtils.scala:54)
+	at org.apache.spark.deploy.SparkSubmit.prepareSubmitEnvironment(SparkSubmit.scala:304)
+	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:774)
+	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:161)
+	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:184)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:86)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:920)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:929)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+srun: error: nia1854: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=7591103.0
+/var/spool/slurm/slurmd/job7591103/slurm_script: line 43: kill: (306828) - No such process
+chown: changing ownership of '/home/p/primath/maxzhang/.spark/2.4.4/log': Read-only file system
+no org.apache.spark.deploy.master.Master to stop
+
+scontrol show jobid 7591103
+JobId=7591103 JobName=DistributedLayoutAlgorithm
+   UserId=maxzhang(3119754) GroupId=primath(6038442) MCS_label=N/A
+   Priority=2574694 Nice=0 Account=rrg-primath QOS=normal
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:13:39 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-22T15:26:44 EligibleTime=2022-06-22T15:26:44
+   AccrueTime=2022-06-22T15:26:44
+   StartTime=2022-06-22T15:29:21 EndTime=2022-06-22T15:43:00 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-22T15:29:21 Scheduler=Main
+   Partition=compute AllocNode:Sid=nia-login03:40165
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=nia[1854,2017-2019]
+   BatchHost=nia1854
+   NumNodes=4 NumCPUs=320 NumTasks=4 CPUs/Task=8 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=320,mem=700000M,node=4,billing=160
+   Socks/Node=* NtasksPerN:B:S:C=1:0:*:* CoreSpec=*
+   MinCPUsNode=8 MinMemoryNode=175000M MinTmpDiskNode=0
+   Features=[skylake|cascade] DelayBoot=00:00:00
+   OverSubscribe=NO Contiguous=0 Licenses=(null) Network=(null)
+   Command=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout/BatchScript.sh
+   WorkDir=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout
+   Comment=/opt/slurm/bin/sbatch --export=NONE BatchScript.sh 
+   StdErr=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout/jobOutput/DistributedLayoutAlgorithm_output_7591103.txt
+   StdIn=/dev/null
+   StdOut=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout/jobOutput/DistributedLayoutAlgorithm_output_7591103.txt
+   Power=
+   MailUser=maxjingwei.zhang@ryerson.ca MailType=BEGIN,END,FAIL
+   
+
+sacct -j 7591103
+JobID           JobName    Account    Elapsed  MaxVMSize     MaxRSS  SystemCPU    UserCPU ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- ---------- ---------- -------- 
+7591103      Distribut+ rrg-prima+   00:13:39                        00:01.152  00:02.763      0:0 
+7591103.bat+      batch rrg-prima+   00:13:39    420680K      9048K  00:00.630  00:00.799      0:0 
+7591103.ext+     extern rrg-prima+   00:13:39    142384K      1124K   00:00:00  00:00.002      0:0 
+7591103.0    spark-sub+ rrg-prima+   00:13:14 114519048K    206836K  00:00.522  00:01.961      1:0 
