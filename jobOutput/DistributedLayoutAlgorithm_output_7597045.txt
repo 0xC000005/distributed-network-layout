@@ -1,0 +1,155 @@
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) mii/1.1.1
+
+
+The following have been reloaded with a version change:
+  1) python/3.7.4 => python/3.6.3
+
+starting org.apache.spark.deploy.master.Master, logging to /home/p/primath/maxzhang/.spark/2.4.4/log/spark-7597045-org.apache.spark.deploy.master.Master-1-nia0008.scinet.local.out
+Master URL = spark://nia0008:7077
+Number of Workers = 3
+https://repos.spark-packages.org added as a remote repository with the name: repo-1
+Ivy Default Cache set to: /home/p/primath/maxzhang/.ivy2/cache
+The jars for the packages stored in: /home/p/primath/maxzhang/.ivy2/jars
+:: loading settings :: url = jar:file:/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+graphframes#graphframes added as a dependency
+:: resolving dependencies :: org.apache.spark#spark-submit-parent-5bf84397-94f5-4798-9e15-c4f381a85b91;1.0
+	confs: [default]
+:: resolution report :: resolve 771318ms :: artifacts dl 1ms
+	:: modules in use:
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   1   |   0   |   0   |   0   ||   0   |   0   |
+	---------------------------------------------------------------------
+
+:: problems summary ::
+:::: WARNINGS
+		module not found: graphframes#graphframes;0.8.0-spark2.4-s_2.11
+
+	==== local-m2-cache: tried
+
+	  file:/home/p/primath/maxzhang/.m2/repository/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom
+
+	  -- artifact graphframes#graphframes;0.8.0-spark2.4-s_2.11!graphframes.jar:
+
+	  file:/home/p/primath/maxzhang/.m2/repository/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar
+
+	==== local-ivy-cache: tried
+
+	  /home/p/primath/maxzhang/.ivy2/local/graphframes/graphframes/0.8.0-spark2.4-s_2.11/ivys/ivy.xml
+
+	  -- artifact graphframes#graphframes;0.8.0-spark2.4-s_2.11!graphframes.jar:
+
+	  /home/p/primath/maxzhang/.ivy2/local/graphframes/graphframes/0.8.0-spark2.4-s_2.11/jars/graphframes.jar
+
+	==== central: tried
+
+	  https://repo1.maven.org/maven2/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom
+
+	  -- artifact graphframes#graphframes;0.8.0-spark2.4-s_2.11!graphframes.jar:
+
+	  https://repo1.maven.org/maven2/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar
+
+	==== spark-packages: tried
+
+	  https://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom
+
+	  -- artifact graphframes#graphframes;0.8.0-spark2.4-s_2.11!graphframes.jar:
+
+	  https://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar
+
+	==== repo-1: tried
+
+	  https://repos.spark-packages.org/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom
+
+	  -- artifact graphframes#graphframes;0.8.0-spark2.4-s_2.11!graphframes.jar:
+
+	  https://repos.spark-packages.org/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+		::          UNRESOLVED DEPENDENCIES         ::
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+		:: graphframes#graphframes;0.8.0-spark2.4-s_2.11: not found
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+
+:::: ERRORS
+	Server access error at url https://repo1.maven.org/maven2/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom (java.net.ConnectException: Connection timed out (Connection timed out))
+
+	Server access error at url https://repo1.maven.org/maven2/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar (java.net.ConnectException: Connection timed out (Connection timed out))
+
+	Server access error at url https://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom (java.net.ConnectException: Connection timed out (Connection timed out))
+
+	Server access error at url https://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar (java.net.ConnectException: Connection timed out (Connection timed out))
+
+	Server access error at url https://repos.spark-packages.org/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.pom (java.net.ConnectException: Connection timed out (Connection timed out))
+
+	Server access error at url https://repos.spark-packages.org/graphframes/graphframes/0.8.0-spark2.4-s_2.11/graphframes-0.8.0-spark2.4-s_2.11.jar (java.net.ConnectException: Connection timed out (Connection timed out))
+
+
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+Exception in thread "main" java.lang.RuntimeException: [unresolved dependency: graphframes#graphframes;0.8.0-spark2.4-s_2.11: not found]
+	at org.apache.spark.deploy.SparkSubmitUtils$.resolveMavenCoordinates(SparkSubmit.scala:1302)
+	at org.apache.spark.deploy.DependencyUtils$.resolveMavenDependencies(DependencyUtils.scala:54)
+	at org.apache.spark.deploy.SparkSubmit.prepareSubmitEnvironment(SparkSubmit.scala:304)
+	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:774)
+	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:161)
+	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:184)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:86)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:920)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:929)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+srun: error: nia0008: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=7597045.1
+srun: forcing job termination
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+srun: error: nia0009: tasks 0-1: Killed
+srun: launch/slurm: _step_signal: Terminating StepId=7597045.0
+stopping org.apache.spark.deploy.master.Master
+
+scontrol show jobid 7597045
+JobId=7597045 JobName=DistributedLayoutAlgorithm
+   UserId=maxzhang(3119754) GroupId=primath(6038442) MCS_label=N/A
+   Priority=2504200 Nice=0 Account=rrg-primath QOS=normal
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:13:24 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-24T14:39:17 EligibleTime=2022-06-24T14:39:17
+   AccrueTime=2022-06-24T14:39:17
+   StartTime=2022-06-24T14:39:17 EndTime=2022-06-24T14:52:41 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-24T14:39:17 Scheduler=Main
+   Partition=compute AllocNode:Sid=nia-login07:57859
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=nia[0008-0010,0042]
+   BatchHost=nia0008
+   NumNodes=4 NumCPUs=320 NumTasks=4 CPUs/Task=8 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=320,mem=700000M,node=4,billing=160
+   Socks/Node=* NtasksPerN:B:S:C=1:0:*:* CoreSpec=*
+   MinCPUsNode=8 MinMemoryNode=175000M MinTmpDiskNode=0
+   Features=[skylake|cascade] DelayBoot=00:00:00
+   OverSubscribe=NO Contiguous=0 Licenses=(null) Network=(null)
+   Command=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout/BatchScript.sh
+   WorkDir=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout
+   Comment=/opt/slurm/bin/sbatch --export=NONE BatchScript.sh 
+   StdErr=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout/jobOutput/DistributedLayoutAlgorithm_output_7597045.txt
+   StdIn=/dev/null
+   StdOut=/gpfs/fs0/scratch/p/primath/maxzhang/distributed-network-layout/jobOutput/DistributedLayoutAlgorithm_output_7597045.txt
+   Power=
+   MailUser=maxjingwei.zhang@ryerson.ca MailType=BEGIN,END,FAIL
+   
+
+sacct -j 7597045
+JobID           JobName    Account    Elapsed  MaxVMSize     MaxRSS  SystemCPU    UserCPU ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- ---------- ---------- -------- 
+7597045      Distribut+ rrg-prima+   00:13:24                        00:02.273  00:03.431      0:0 
+7597045.bat+      batch rrg-prima+   00:13:24    860964K     16180K  00:00.865  00:00.929      0:0 
+7597045.ext+     extern rrg-prima+   00:13:29    142384K      1136K  00:00.001  00:00.001      0:0 
+7597045.0    start-sla+ rrg-prima+   00:12:58  14622440K    416552K  00:00.712  00:00.481      0:9 
+7597045.1    spark-sub+ rrg-prima+   00:12:55 114519048K    196000K  00:00.693  00:02.017      1:0 
