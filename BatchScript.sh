@@ -20,8 +20,6 @@ module load spark/2.4.4
 module load scipy-stack
 module load python/3.6.3
 module load networkx/1.1
-mvn org.apache.maven.plugins:maven-dependency-plugin:2.1:get -Dartifact=graphframes:graphframes:0.6.0-spark2.3-s_2.11 -DrepoUrl=https://repos.spark-packages.org
-
 
 # Recommended settings for calling Intel MKL routines from multi-threaded applications
 # https://software.intel.com/en-us/articles/recommended-settings-for-calling-intel-mkl-routines-from-multi-threaded-applications
