@@ -13,7 +13,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from graphframes import GraphFrame
 from graphframes.lib import AggregateMessages as AM
-from numba import jit
 
 mpl.use('Agg')
 
