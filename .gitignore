@@ -263,4 +263,5 @@ dmypy.json
 .pyre/
 
 *.csv
-*.txt
+
+jobOutput/
