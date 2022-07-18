@@ -16,13 +16,13 @@ export SPARK_LOG_DIR=$SCRATCH
 #import required modules
 module load CCEnv
 module load nixpkgs/16.09
-module load spark/2.4.4
+module load python/3.6.3
 module load scipy-stack
 module load spark/2.4.4
-module load python/3.6.3
-module load networkx/1.1
+module load StdEnv/2020
+module load llvm/9.0.1
 
-export ENVDIR=/$SCRATCH/virtualenv
+export ENVDIR=/$SCRATCH/virEnv
 source $ENVDIR/bin/activate
 
 # Recommended settings for calling Intel MKL routines from multi-threaded applications
