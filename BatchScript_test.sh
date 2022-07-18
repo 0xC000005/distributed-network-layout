@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=5
 #SBATCH --ntasks-per-node=10
-#SBATCH --cpus-per-task=10
+#SBATCH --cpus-per-task=8
 #SBATCH --time=23:59:59
 #SBATCH --account=rrg-primath
 #SBATCH --job-name=DistributedLayoutAlgorithm
