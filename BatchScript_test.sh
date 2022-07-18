@@ -19,7 +19,7 @@ module load nixpkgs/16.09
 module load spark/2.4.4
 module load scipy-stack
 module load spark/2.4.4
-module load python/3.9.6
+module load python/3.6.3
 module load networkx/1.1
 
 export ENVDIR=/$SCRATCH/virtualenv
