@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=5
-#SBATCH --ntasks-per-node=8
+#SBATCH --ntasks-per-node=10
 #SBATCH --cpus-per-task=10
 #SBATCH --time=23:59:59
 #SBATCH --account=rrg-primath
@@ -17,7 +17,10 @@ export SPARK_LOG_DIR=$SCRATCH
 module load CCEnv
 module load nixpkgs/16.09
 module load spark/2.4.4
+module load scipy-stack
+module load spark/2.4.4
 module load python/3.9.6
+module load networkx/1.1
 
 export ENVDIR=/$SCRATCH/virtualenv
 source $ENVDIR/bin/activate
