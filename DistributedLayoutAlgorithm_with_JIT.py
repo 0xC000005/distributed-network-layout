@@ -13,7 +13,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from graphframes import GraphFrame
 from graphframes.lib import AggregateMessages as AM
-# from numba import jit
+from numba import jit
 
 mpl.use('Agg')
 
@@ -21,7 +21,7 @@ mpl.use('Agg')
 # Function to calculate the associated centroid, and it distances to the vertex
 # @para it takes source vertex x,y co-ordinates as input parameter and the centroidBroadcast
 # @return the associated centroid and its distances from the vertex
-# @jit(cache=True)
+@jit(cache=True)
 def centroidVertexAssociation(vertexCord, centroidBroadcast):
     # TODO: fix centroidBroadcast not pre-defined issue (ERR LEVEL ISSUE!!!)
     centroidsValue = centroidBroadcast.value
@@ -48,7 +48,7 @@ centroidVertexAssociationUdf = Func.udf(lambda z: centroidVertexAssociation(z, c
 # Function to calculate the displacement on sources' x,y-axis due to dest attractive force
 # @para it takes 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
 # @return the displacement on the source`s x-axis due to destinations attractive force: DoubleType()
-# @jit(cache=True)
+@jit(cache=True)
 def aDispSrc(src, dst):
     # Constant to calculate attractive and repulsive force
     K = math.sqrt(1 / nVertices)
@@ -82,7 +82,7 @@ aDispSrc = Func.udf(aDispSrc, ArrayType(DoubleType()))
 # Function to calculate the displacement on dst`s x-axis due to dest attractive force
 # @para it takes 4 parameter. x,y attributes from Src node and x,y attribute from Dst node
 # @return the displacement on the dst`s x-axis due to destinations attractive force: DoubleType()
-# @jit(cache=True)
+@jit(cache=True)
 def aDispDst(node1, node2):
     K = math.sqrt(1 / nVertices)
     dx = (node2[0] - node1[0])
@@ -111,7 +111,7 @@ aDispDst = Func.udf(aDispDst, ArrayType(DoubleType()))
 # Function to calculate the displacement on vertices due to centroids repulsive force
 # @para it takes vertex x,y co-ordinates as input parameter
 # @return the displacement of vertex position due to centroids repulsive force
-# @jit(cache=True)
+@jit(cache=True)
 def rForceCentroid(vertexCord):
     K = math.sqrt(1 / nVertices)
     centroidLength = len(centroid_list)
@@ -143,7 +143,7 @@ rForceCentroid = Func.udf(rForceCentroid, ArrayType(DoubleType()))
 # Function to calculate the displacement on vertices due to center repulsive force
 # @para it takes vertex x,y co-ordinates as input parameter
 # @return the displacement of vertex position due to center repulsive force
-# @jit(cache=True)
+@jit(cache=True)
 def rForceCenter(vertexCord):
     K = math.sqrt(1 / nVertices)
     weight = 1
@@ -169,7 +169,7 @@ rForceCenter = Func.udf(rForceCenter, ArrayType(DoubleType()))
 # Function to scale the vertices degree centrality
 # @Param: degree of vertex and maxDegree in the graph
 # @return: the scaled degree between 0 and 5
-# @jit(cache=True)
+@jit(cache=True)
 def scale_degree(degree, maxDegree, minDegree=1, mi=0, ma=5, log=False, power=1):
     r"""Convert property map values to be more useful as a vertex size, or edge
     width. The new values are taken to be
