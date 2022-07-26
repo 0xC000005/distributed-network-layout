@@ -22,7 +22,6 @@ mpl.use('Agg')
 # @para it takes source vertex x,y co-ordinates as input parameter and the centroidBroadcast
 # @return the associated centroid and its distances from the vertex
 def centroidVertexAssociation(vertexCord, centroidBroadcast):
-    import math
     # TODO: fix centroidBroadcast not pre-defined issue (ERR LEVEL ISSUE!!!)
     centroidsValue = centroidBroadcast.value
     centroidLength = len(centroidsValue)
@@ -194,6 +193,7 @@ def scale_degree(degree, maxDegree, minDegree=1, mi=0, ma=5, log=False, power=1)
 scale_degree = Func.udf(scale_degree, DoubleType())
 
 if __name__ == "__main__":
+    import math
     startTime = timeit.default_timer()
 
     # save file arguments to variables
