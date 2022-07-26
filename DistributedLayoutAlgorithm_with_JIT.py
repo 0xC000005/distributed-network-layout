@@ -22,6 +22,7 @@ mpl.use('Agg')
 # @para it takes source vertex x,y co-ordinates as input parameter and the centroidBroadcast
 # @return the associated centroid and its distances from the vertex
 def centroidVertexAssociation(vertexCord, centroidBroadcast):
+    import math
     # TODO: fix centroidBroadcast not pre-defined issue (ERR LEVEL ISSUE!!!)
     centroidsValue = centroidBroadcast.value
     centroidLength = len(centroidsValue)
@@ -49,6 +50,7 @@ centroidVertexAssociationUdf = Func.udf(lambda z: centroidVertexAssociation(z, c
 # @return the displacement on the source`s x-axis due to destinations attractive force: DoubleType()
 @jit
 def aDispSrc(src, dst):
+    import math
     # Constant to calculate attractive and repulsive force
     K = math.sqrt(1 / nVertices)
     dx = (dst[0] - src[0])
@@ -83,6 +85,7 @@ aDispSrc = Func.udf(aDispSrc, ArrayType(DoubleType()))
 # @return the displacement on the dst`s x-axis due to destinations attractive force: DoubleType()
 @jit
 def aDispDst(node1, node2):
+    import math
     K = math.sqrt(1 / nVertices)
     dx = (node2[0] - node1[0])
     dy = (node2[1] - node1[1])
@@ -168,6 +171,7 @@ rForceCenter = Func.udf(rForceCenter, ArrayType(DoubleType()))
 # @return: the scaled degree between 0 and 5
 @jit
 def scale_degree(degree, maxDegree, minDegree=1, mi=0, ma=5, log=False, power=1):
+    import math
     r"""Convert property map values to be more useful as a vertex size, or edge
     width. The new values are taken to be
 
