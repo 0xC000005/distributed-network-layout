@@ -15,4 +15,4 @@ module load CCEnv
 module load StdEnv/2020  gcc/9.3.0
 module load arrow/0.17.1
 source $SCRATCH/virEnv/bin/activate
-csv2parquet com-friendster.ungraph.txt
+csv2parquet SNAP/com-friendster.ungraph.txt
