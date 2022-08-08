@@ -12,6 +12,7 @@
 #SBATCH --mail-type=FAIL
 
 module load CCEnv
-module load python gcc arrow/0.17.1
+module load StdEnv/2020  gcc/9.3.0
+module load arrow/0.17.1
 source $SCRATCH/virEnv/bin/activate
 csv2parquet com-friendster.ungraph.txt
