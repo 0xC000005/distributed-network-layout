@@ -201,7 +201,8 @@ if __name__ == "__main__":
     InitialNumPartitions=sc.defaultParallelism
     
     # load input edge file 
-    edges = spark.read.csv(inputPath,sep = "\t",comment='#',header=None)
+    # edges = spark.read.csv(inputPath,sep = "\t",comment='#',header=None)
+    edges = spark.read.parquet(inputPath)
     edges = edges.withColumnRenamed("_c0","src")\
     .withColumnRenamed("_c1","dst")
     edgesCheckpoint = edges.checkpoint()
