@@ -77,7 +77,7 @@ def aDispDst(node1, node2):
 
 aDispDst = F.udf(aDispDst, ArrayType(DoubleType()))
 
-# Function to calculate the associated centroid and it distance to the vertex 
+# Function to calculate the associated centroid and it distance to the vertex
 # @para it takes source vertex x,y co-ordiates as input parameter
 # @return the associated centroid and its distances from the vertex
 centroidVertexAssociationUdf = F.udf(lambda z: centroidVertexAssociation(z), ArrayType(DoubleType()))
@@ -215,37 +215,33 @@ if __name__ == "__main__":
     #     startTime = timeit.default_timer()
     InitialNumPartitions = sc.defaultParallelism
 
-    # load input edge file 
-    edges = spark.read.csv(inputPath,sep = "\t",comment='#',header=None)
-    print("Start reading the file")
-    # edges = spark.read.parquet(inputPath)
-    print("File reading complete")
-
+    # load input edge file
+    edges = spark.read.csv(inputPath, sep="\t", comment='#', header=None)
     edges = edges.withColumnRenamed("_c0", "src") \
         .withColumnRenamed("_c1", "dst")
     edgesCheckpoint = edges.checkpoint()
     edgesCheckpoint.count()
 
-    print("the number of partitions in edges df are")
-    numPartitions = edges.rdd.getNumPartitions()
-    print(numPartitions)
+    #     print("the number of partitions in edges df are")
+    #     numPartitions = edges.rdd.getNumPartitions()
+    #     print(numPartitions)
 
     # Extract nodes from the edge list dataframe
     vA = edgesCheckpoint.select(F.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
-    print(vA.rdd.getNumPartitions())
-    print("number of unique verticex in src column: {}".format(vA.count()))
+    #     print(vA.rdd.getNumPartitions())
+    #     print("number of unique verticex in src column: {}".format(vA.count()))
 
     vB = edgesCheckpoint.select(F.col('dst')).drop_duplicates() \
         .withColumnRenamed('dst', 'id')
-    print(vB.rdd.getNumPartitions())
-    print("number of unique verticex in dst column: {}".format(vB.count()))
+    #     print(vB.rdd.getNumPartitions())
+    #     print("number of unique verticex in dst column: {}".format(vB.count()))
     vF1 = vA.union(vB).distinct()
 
     nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
     nodesCheckpoint.count()
-    print("the number of partitions in vF df are")
-    print(nodesCheckpoint.rdd.getNumPartitions())
+    #     print("the number of partitions in vF df are")
+    #     print(nodesCheckpoint.rdd.getNumPartitions())
     print("Num of nodes: {}".format(nodesCheckpoint.count()))
     print("Num of edges: {}".format(edgesCheckpoint.count()))
 
@@ -258,17 +254,17 @@ if __name__ == "__main__":
 
     # initialize index and graphs dictionary
     i = 0
-    # create GraphFrame object using nodes and edges dataframe
+    # create GraphFrame object using nodes and egdes dataframe
     graphs[i] = GraphFrame(nodesCheckpoint, edgesCheckpoint)
     currentNodes = graphs[i].vertices
 
-    # number of nodes in the first filtration level 
+    # number of nodes in the first filtration level
     currentNodesCounts = currentNodes.count()
 
     currentEdges = graphs[i].edges
     currentEdgesCounts = currentEdges.count()
 
-    # variable to stop the while loop of the selected nodes of next level of filtration is less than 3
+    # variable to stop the while loop of the seleceted nodes of next level of filtration is less than 3
     currentSelectedNodes = currentNodes.count()
 
     numOfVertices = graphs[i].vertices.count()
@@ -282,14 +278,14 @@ if __name__ == "__main__":
 
     numberOfCentroids = round(nNodes / 2)
 
-    # Initialize the vertices with x,y with random values and dispx,dispy with 0
+    # Initialize the vertice with x,y with random values and dispx,dispy with 0
     verticeWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
         .checkpoint()
 
     # cool-down amount
     dt = t / (numIteration + 1)
 
-    # calculate the center repulsive force for given iteration 
+    # calculate the center repulsive force for given iteration
     for p in range(numIteration):
         # calculate centroids
         centroids = verticeWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nNodes), seed=1)
