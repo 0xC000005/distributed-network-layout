@@ -216,9 +216,9 @@ if __name__ == "__main__":
     InitialNumPartitions = sc.defaultParallelism
 
     # load input edge file 
-    # edges = spark.read.csv(inputPath,sep = "\t",comment='#',header=None)
+    edges = spark.read.csv(inputPath,sep = "\t",comment='#',header=None)
     print("Start reading the file")
-    edges = spark.read.parquet(inputPath)
+    # edges = spark.read.parquet(inputPath)
     print("File reading complete")
 
     edges = edges.withColumnRenamed("_c0", "src") \
