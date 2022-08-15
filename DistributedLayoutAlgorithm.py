@@ -222,20 +222,20 @@ if __name__ == "__main__":
     edgesCheckpoint = edges.checkpoint()
     edgesCheckpoint.count()
 
-    #     print("the number of partitions in edges df are")
-    #     numPartitions = edges.rdd.getNumPartitions()
-    #     print(numPartitions)
+    print("the number of partitions in edges df are")
+    numPartitions = edges.rdd.getNumPartitions()
+    print(numPartitions)
 
     # Extract nodes from the edge list dataframe
     vA = edgesCheckpoint.select(F.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
-    #     print(vA.rdd.getNumPartitions())
-    #     print("number of unique verticex in src column: {}".format(vA.count()))
+    print(vA.rdd.getNumPartitions())
+    print("number of unique verticex in src column: {}".format(vA.count()))
 
     vB = edgesCheckpoint.select(F.col('dst')).drop_duplicates() \
         .withColumnRenamed('dst', 'id')
-    #     print(vB.rdd.getNumPartitions())
-    #     print("number of unique verticex in dst column: {}".format(vB.count()))
+    print(vB.rdd.getNumPartitions())
+    print("number of unique verticex in dst column: {}".format(vB.count()))
     vF1 = vA.union(vB).distinct()
 
     nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
