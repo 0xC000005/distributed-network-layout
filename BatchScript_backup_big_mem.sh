@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=20
-#SBATCH --ntasks-per-node=8
-#SBATCH --cpus-per-task=5
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=20
 #SBATCH --time=23:59:59
 #SBATCH --account=rrg-primath
 #SBATCH --job-name=DistributedLayoutAlgorithm
@@ -37,8 +37,8 @@ echo "Master URL = "$MASTER_URL
 echo "Number of Workers = "$NWORKERS
 
 #start worker nodes
-SPARK_NO_DAEMONIZE=1 srun -n 152 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 32g -c 5 ${MASTER_URL} & slaves_pid=$!
+SPARK_NO_DAEMONIZE=1 srun -n 32 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 80g -c 5 ${MASTER_URL} & slaves_pid=$!
 
-srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --driver-memory 80g --conf spark.driver.memoryOvehead=60g --executor-memory 32g --conf spark.executor.memoryOverhead=6g --conf spark.memory.fraction=0.6 --conf spark.driver.maxResultSize=0 --conf spark.memory.storageFraction=0.5 --conf spark.default.parallelism=500 --conf spark.sql.shuffle.partitions=500 --conf spark.shuffle.io.maxRetries=10 --conf spark.blacklist.enabled=False  --conf spark.shuffle.io.retryWait=60s --conf spark.reducer.maxReqsInFlight=1 --conf spark.shuffle.io.backLog=4096 --conf spark.network.timeout=1200 --conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
+srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --driver-memory 80g --conf spark.driver.memoryOvehead=60g --executor-memory 80g --conf spark.executor.memoryOverhead=8g --conf spark.memory.fraction=0.6 --conf spark.driver.maxResultSize=0 --conf spark.memory.storageFraction=0.5 --conf spark.default.parallelism=500 --conf spark.sql.shuffle.partitions=500 --conf spark.shuffle.io.maxRetries=10 --conf spark.blacklist.enabled=False  --conf spark.shuffle.io.retryWait=60s --conf spark.reducer.maxReqsInFlight=1 --conf spark.shuffle.io.backLog=4096 --conf spark.network.timeout=1200 --conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
 kill $slaves_pid
 stop-master.sh
