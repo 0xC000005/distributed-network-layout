@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=20
-#SBATCH --ntasks-per-node=20
-#SBATCH --cpus-per-task=4
+#SBATCH --ntasks-per-node=10
+#SBATCH --cpus-per-task=8
 #SBATCH --time=0:45:0
 #SBATCH --account=rrg-primath
 #SBATCH --job-name=DistributedLayoutAlgorithm
@@ -44,7 +44,7 @@ echo "SLURM_CPUS_PER_TASK = "$SLURM_CPUS_PER_TASK
 
 
 #start worker nodes
-SPARK_NO_DAEMONIZE=1 srun -n 380 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 10g -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
+SPARK_NO_DAEMONIZE=1 srun -n 190 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 20g -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
 srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
 
 kill $slaves_pid
