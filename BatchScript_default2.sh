@@ -28,6 +28,7 @@ export SPARK_IDENT_STRING=$SLURM_JOBID
 export SPARK_WORKER_DIR=$SLURM_TMPDIR
 export SLURM_SPARK_MEM=$(printf "%.0f" $((${SLURM_MEM_PER_NODE} *95/100)))
 export PYTHONPATH=$PYTHONPATH:/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/spark/2.4.4/python/lib/py4j-0.10.7-src.zip
+export _JAVA_OPTIONS="-Xms256m -Xmx20g"
 
 start-master.sh
 sleep 5
@@ -48,6 +49,7 @@ SPARK_NO_DAEMONIZE=1 srun -n 152 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG
 
 # srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --driver-memory 180g --conf spark.driver.memoryOvehead=18g --executor-memory 180g --conf spark.executor.memoryOverhead=18g --conf spark.memory.fraction=0.2 --conf spark.driver.maxResultSize=0 --conf spark.memory.storageFraction=0.5 --conf spark.default.parallelism=9120 --conf spark.sql.shuffle.partitions=9120 --conf spark.shuffle.io.maxRetries=10 --conf spark.blacklist.enabled=False  --conf spark.shuffle.io.retryWait=60s --conf spark.reducer.maxReqsInFlight=1 --conf spark.shuffle.io.backLog=4096 --conf spark.network.timeout=1200 --conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
 # srun -n 1 -N 1 spark-submit --master ${MASTER_URL} -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py sampleInput1/covid19vaccine_twitter_replyto_net_feb2021.tsv output/ 100
+
 srun -n 1 -N 1 spark-submit --master ${MASTER_URL} spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py sampleInput1/covid19vaccine_twitter_replyto_net_feb2021.tsv output/ 100
 
 kill $slaves_pid
