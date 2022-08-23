@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --nodes=40
+#SBATCH --nodes=20
 #SBATCH --ntasks-per-node=10
 #SBATCH --cpus-per-task=8
 #SBATCH --time=23:59:59
@@ -44,8 +44,8 @@ echo "SLURM_CPUS_PER_TASK = "$SLURM_CPUS_PER_TASK
 
 
 #start worker nodes
-SPARK_NO_DAEMONIZE=1 srun -n 390 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 20g -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
-srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --conf spark.driver.maxResultSize=2g --conf "spark.executor.extraJavaOptions=-Xmx20g -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
+SPARK_NO_DAEMONIZE=1 srun -n 190 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 20g -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
+srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --conf spark.default.parallelism=3040 --conf spark.sql.shuffle.partitions=3040 --conf spark.driver.maxResultSize=2g --driver-memory 18g --executor-memory 18g --conf spark.executor.memoryOverhead=2g --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.dynamicAllocation.enabled=False --conf spark.executor.extraJavaOptions= "-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf spark.driver.extraJavaOptions="-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11  --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
 
 kill $slaves_pid
 stop-master.sh
