@@ -354,13 +354,13 @@ if __name__ == "__main__":
         #     newVertices['dispY'])) \
         #     # .cache()
 
-        newVertices2 = newVertices.join((AM), on=(newVertices['id'] == AM['id']), how='left_outer') \
-            .drop(AM['id']) \
-            .withColumn('newDispColX', F.when(AM['adispXY'][0].isNotNull(),
-                                              (AM['adispXY'][0] + newVertices['dispX'])).otherwise(
+        newVertices2 = newVertices.join((aAgg), on=(newVertices['id'] == aAgg['id']), how='left_outer') \
+            .drop(aAgg['id']) \
+            .withColumn('newDispColX', F.when(aAgg['adispXY'][0].isNotNull(),
+                                              (aAgg['adispXY'][0] + newVertices['dispX'])).otherwise(
             newVertices['dispX'])) \
-            .withColumn('newDispColY', F.when(AM['adispXY'][1].isNotNull(),
-                                              (AM['adispXY'][1] + newVertices['dispY'])).otherwise(
+            .withColumn('newDispColY', F.when(aAgg['adispXY'][1].isNotNull(),
+                                              (aAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
             newVertices['dispY'])) \
             # .cache()
 
