@@ -240,7 +240,6 @@ if __name__ == "__main__":
     vF1 = vA.union(vB).distinct()
 
     # nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
-    nodesCheckpoint = vF1.persist(pyspark.StorageLevel.DISK_ONLY)
     nodesCheckpoint.count()
     print("the number of partitions in vF df are")
     print(nodesCheckpoint.rdd.getNumPartitions())
@@ -294,7 +293,7 @@ if __name__ == "__main__":
         centroid_list = centroids.select("xy").rdd.flatMap(lambda x: x).collect()
 
         print("    calculate centroids repulsive force")
-        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
+        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")) #.cache()
         print("    vCentroid transferred")
         vCentroid.count()
         print("    vCentroid updated")
@@ -310,7 +309,7 @@ if __name__ == "__main__":
 
         print("    calculate center repulsive force")
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                        "dispCenterXY").cache()
+                                                                                        "dispCenterXY")#.cache()
         vCenter.count()
 
         centerBroadcast.unpersist()
@@ -320,10 +319,10 @@ if __name__ == "__main__":
             .drop(vCentroid.xy) \
             .withColumn("dispX", (F.col("dispCentroidXY")[0] + F.col("dispCenterXY")[0])) \
             .withColumn("dispY", (F.col("dispCentroidXY")[1] + F.col("dispCenterXY")[1])) \
-            .cache()
+            # .cache()
 
-        vCentroid.unpersist()
-        vCenter.unpersist()
+        # vCentroid.unpersist()
+        # vCenter.unpersist()
         print("    rForce is calculated")
         gfA = GraphFrame(verticeWithCord, edges)  # .cache()
 
@@ -352,9 +351,9 @@ if __name__ == "__main__":
             .withColumn('newDispColY', F.when(cachedAAgg['adispXY'][1].isNotNull(),
                                               (cachedAAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
             newVertices['dispY'])) \
-            .cache()
+            # .cache()
 
-        newVertices.unpersist()
+        # newVertices.unpersist()
         print("    Update the vertices position")
         updatedVertices = newVertices2.withColumn("length",
                                                   F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
@@ -367,10 +366,10 @@ if __name__ == "__main__":
                   "length", "newDispX", "newDispY") \
             .withColumnRenamed("newXY", "xy").checkpoint(True)
 
-        newVertices2.unpersist()
+        # newVertices2.unpersist()
 
         verticeWithCord = updatedVertices
-        cachedAAgg.unpersist()
+        # cachedAAgg.unpersist()
 
         print("{} Iterations are completed".format(p, k))
         t -= dt
