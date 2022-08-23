@@ -322,8 +322,8 @@ if __name__ == "__main__":
             .withColumn("dispY", (F.col("dispCentroidXY")[1] + F.col("dispCenterXY")[1])) \
             # .cache()
 
-        vCentroid.unpersist()
-        vCenter.unpersist()
+        # vCentroid.unpersist()
+        # vCenter.unpersist()
         print("    rForce is calculated")
         gfA = GraphFrame(verticeWithCord, edges)  # .cache()
 
@@ -340,17 +340,27 @@ if __name__ == "__main__":
             sendToSrc=msgToSrc,  # )
             sendToDst=msgToDst)
 
-        cachedAAgg = AM.getCachedDataFrame(aAgg)
+        # cachedAAgg = AM.getCachedDataFrame(aAgg)
         print("    aForce is calculated")
 
         print("    Calculate total displacement from all forces")
-        newVertices2 = newVertices.join((cachedAAgg), on=(newVertices['id'] == cachedAAgg['id']), how='left_outer') \
-            .drop(cachedAAgg['id']) \
-            .withColumn('newDispColX', F.when(cachedAAgg['adispXY'][0].isNotNull(),
-                                              (cachedAAgg['adispXY'][0] + newVertices['dispX'])).otherwise(
+        # newVertices2 = newVertices.join((cachedAAgg), on=(newVertices['id'] == cachedAAgg['id']), how='left_outer') \
+        #     .drop(cachedAAgg['id']) \
+        #     .withColumn('newDispColX', F.when(cachedAAgg['adispXY'][0].isNotNull(),
+        #                                       (cachedAAgg['adispXY'][0] + newVertices['dispX'])).otherwise(
+        #     newVertices['dispX'])) \
+        #     .withColumn('newDispColY', F.when(cachedAAgg['adispXY'][1].isNotNull(),
+        #                                       (cachedAAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
+        #     newVertices['dispY'])) \
+        #     # .cache()
+
+        newVertices2 = newVertices.join((AM), on=(newVertices['id'] == AM['id']), how='left_outer') \
+            .drop(AM['id']) \
+            .withColumn('newDispColX', F.when(AM['adispXY'][0].isNotNull(),
+                                              (AM['adispXY'][0] + newVertices['dispX'])).otherwise(
             newVertices['dispX'])) \
-            .withColumn('newDispColY', F.when(cachedAAgg['adispXY'][1].isNotNull(),
-                                              (cachedAAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
+            .withColumn('newDispColY', F.when(AM['adispXY'][1].isNotNull(),
+                                              (AM['adispXY'][1] + newVertices['dispY'])).otherwise(
             newVertices['dispY'])) \
             # .cache()
 
@@ -370,7 +380,7 @@ if __name__ == "__main__":
         newVertices2.unpersist()
 
         verticeWithCord = updatedVertices
-        cachedAAgg.unpersist()
+        # cachedAAgg.unpersist()
 
         print("{} Iterations are completed".format(p, k))
         t -= dt
