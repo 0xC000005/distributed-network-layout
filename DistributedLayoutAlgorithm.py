@@ -105,6 +105,7 @@ def centroidVertexAssociation(vertexCord):
 # @para it takes vertex x,y co-ordiates as input parameter
 # @return the dsisplacement of vertex position due to centroids repulsive force
 def rForceCentroid(vertexCord):
+    print('rForceCentroid calculation begin')
     K = math.sqrt(1 / nNodes)
     centroidLength = len(centroid_list)
     weight = 1
@@ -293,9 +294,9 @@ if __name__ == "__main__":
 
         print("    calculate centroids repulsive force")
         vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
-
+        print("    vCentroid transferred")
         vCentroid.count()
-
+        print("    vCentroid updated")
         print("    find the center of the network")
         if nNodes > 0:
             x = centroids.agg(F.avg(F.col("xy")[0]).alias("centerX")).collect()
@@ -325,7 +326,8 @@ if __name__ == "__main__":
         print("    rForce is calculated")
         gfA = GraphFrame(verticeWithCord, edges)  # .cache()
 
-        print("    messages send to source and destination vertices to calculate displacement on node due to attractive force")
+        print(
+            "    messages send to source and destination vertices to calculate displacement on node due to attractive force")
         msgToSrc = aDispSrc(AM.src['xy'], AM.dst['xy'])
         msgToDst = aDispDst(AM.src['xy'], AM.dst['xy'])
 
