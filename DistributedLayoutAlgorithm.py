@@ -322,8 +322,8 @@ if __name__ == "__main__":
             .withColumn("dispY", (F.col("dispCentroidXY")[1] + F.col("dispCenterXY")[1])) \
             # .cache()
 
-        # vCentroid.unpersist()
-        # vCenter.unpersist()
+        vCentroid.unpersist()
+        vCenter.unpersist()
         print("    rForce is calculated")
         gfA = GraphFrame(verticeWithCord, edges)  # .cache()
 
@@ -354,7 +354,7 @@ if __name__ == "__main__":
             newVertices['dispY'])) \
             # .cache()
 
-        # newVertices.unpersist()
+        newVertices.unpersist()
         print("    Update the vertices position")
         updatedVertices = newVertices2.withColumn("length",
                                                   F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
@@ -367,10 +367,10 @@ if __name__ == "__main__":
                   "length", "newDispX", "newDispY") \
             .withColumnRenamed("newXY", "xy").checkpoint(True)
 
-        # newVertices2.unpersist()
+        newVertices2.unpersist()
 
         verticeWithCord = updatedVertices
-        # cachedAAgg.unpersist()
+        cachedAAgg.unpersist()
 
         print("{} Iterations are completed".format(p, k))
         t -= dt
