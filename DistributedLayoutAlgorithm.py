@@ -220,7 +220,8 @@ if __name__ == "__main__":
     edges = spark.read.csv(inputPath, sep="\t", comment='#', header=None)
     edges = edges.withColumnRenamed("_c0", "src") \
         .withColumnRenamed("_c1", "dst")
-    edgesCheckpoint = edges.checkpoint()
+    # edgesCheckpoint = edges.checkpoint()
+    edgesCheckpoint = edges.persist(pyspark.StorageLevel.DISK_ONLY_2)
     edgesCheckpoint.count()
 
     print("the number of partitions in edges df are")
@@ -281,8 +282,11 @@ if __name__ == "__main__":
     numberOfCentroids = round(nNodes / 2)
 
     print("Initialize the vertice with x,y with random values and dispx,dispy with 0")
+    # verticeWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
+    #     .checkpoint()
     verticeWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
-        .checkpoint()
+        .persist(pyspark.StorageLevel.DISK_ONLY_2)
+
 
     # cool-down amount
     dt = t / (numIteration + 1)
@@ -367,6 +371,16 @@ if __name__ == "__main__":
         newVertices.unpersist()
         print("    Update the vertices position")
         spark.catalog.clearCache()
+        # updatedVertices = newVertices2.withColumn("length",
+        #                                           F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
+        #     .withColumn('newDispX',
+        #                 (F.col('newDispColX') / F.col('length')) * F.least(F.abs(F.col('length')), F.lit(t))) \
+        #     .withColumn('newDispY',
+        #                 (F.col('newDispColY') / F.col('length')) * F.least(F.abs(F.col('length')), F.lit(t))) \
+        #     .withColumn('newXY', F.array((F.col('xy')[0] + F.col('newDispX')), (F.col('xy')[1] + F.col('newDispY')))) \
+        #     .drop("xy", "dispCentroidXY", "dispCenterXY", "dispX", "dispY", "aDispXY", "newDispColX", "newDispColY",
+        #           "length", "newDispX", "newDispY") \
+        #     .withColumnRenamed("newXY", "xy").checkpoint(eager=True)
         updatedVertices = newVertices2.withColumn("length",
                                                   F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
             .withColumn('newDispX',
@@ -376,7 +390,7 @@ if __name__ == "__main__":
             .withColumn('newXY', F.array((F.col('xy')[0] + F.col('newDispX')), (F.col('xy')[1] + F.col('newDispY')))) \
             .drop("xy", "dispCentroidXY", "dispCenterXY", "dispX", "dispY", "aDispXY", "newDispColX", "newDispColY",
                   "length", "newDispX", "newDispY") \
-            .withColumnRenamed("newXY", "xy").checkpoint(eager=True)
+            .withColumnRenamed("newXY", "xy").persist(pyspark.StorageLevel.DISK_ONLY_2)
 
         newVertices2.unpersist()
 
