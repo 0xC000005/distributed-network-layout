@@ -239,7 +239,8 @@ if __name__ == "__main__":
     print("number of unique verticex in dst column: {}".format(vB.count()))
     vF1 = vA.union(vB).distinct()
 
-    nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
+    # nodesCheckpoint = vF1.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
+    nodesCheckpoint = vF1.persist(pyspark.StorageLevel.DISK_ONLY)
     nodesCheckpoint.count()
     print("the number of partitions in vF df are")
     print(nodesCheckpoint.rdd.getNumPartitions())
