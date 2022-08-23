@@ -2,7 +2,7 @@
 #SBATCH --nodes=20
 #SBATCH --ntasks-per-node=10
 #SBATCH --cpus-per-task=8
-#SBATCH --time=23:59:59
+#SBATCH --time=0:45:0
 #SBATCH --account=rrg-primath
 #SBATCH --job-name=DistributedLayoutAlgorithm
 #SBATCH --output=jobOutput/DistributedLayoutAlgorithm_output_%j.txt
