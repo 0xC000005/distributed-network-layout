@@ -366,6 +366,7 @@ if __name__ == "__main__":
 
         newVertices.unpersist()
         print("    Update the vertices position")
+        spark.catalog.clearCache()
         updatedVertices = newVertices2.withColumn("length",
                                                   F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
             .withColumn('newDispX',
@@ -375,7 +376,7 @@ if __name__ == "__main__":
             .withColumn('newXY', F.array((F.col('xy')[0] + F.col('newDispX')), (F.col('xy')[1] + F.col('newDispY')))) \
             .drop("xy", "dispCentroidXY", "dispCenterXY", "dispX", "dispY", "aDispXY", "newDispColX", "newDispColY",
                   "length", "newDispX", "newDispY") \
-            .withColumnRenamed("newXY", "xy").checkpoint(True)
+            .withColumnRenamed("newXY", "xy").checkpoint(eager=True)
 
         newVertices2.unpersist()
 
