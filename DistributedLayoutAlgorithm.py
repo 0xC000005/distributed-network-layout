@@ -294,7 +294,7 @@ if __name__ == "__main__":
         centroid_list = centroids.select("xy").rdd.flatMap(lambda x: x).collect()
 
         print("    calculate centroids repulsive force")
-        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")) #.cache()
+        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy"))  # .cache()
         print("    vCentroid transferred")
         vCentroid.count()
         print("    vCentroid updated")
@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
         print("    calculate center repulsive force")
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                        "dispCenterXY")#.cache()
+                                                                                        "dispCenterXY") # .cache()
         vCenter.count()
 
         centerBroadcast.unpersist()
