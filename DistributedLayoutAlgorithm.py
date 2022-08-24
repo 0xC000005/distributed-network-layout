@@ -318,6 +318,7 @@ if __name__ == "__main__":
         print("    calculate center repulsive force")
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
                                                                                         "dispCenterXY") # .cache()
+        print("    calculate center repulsive force: ")
         vCenter.count()
         spark.catalog.clearCache()
         centerBroadcast.unpersist()
@@ -329,8 +330,8 @@ if __name__ == "__main__":
             .withColumn("dispY", (F.col("dispCentroidXY")[1] + F.col("dispCenterXY")[1])) \
             # .cache()
 
-        # vCentroid.unpersist()
-        # vCenter.unpersist()
+        vCentroid.unpersist()
+        vCenter.unpersist()
         print("    rForce is calculated")
         gfA = GraphFrame(verticeWithCord, edges)  # .cache()
 
