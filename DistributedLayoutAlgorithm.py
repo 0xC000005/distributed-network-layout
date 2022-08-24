@@ -374,8 +374,8 @@ if __name__ == "__main__":
             newVertices['dispY'])).persist(pyspark.StorageLevel.DISK_ONLY_2) \
             # .cache()
         print("    Calculate total displacement from all forces: applying action")
-        newVertices2.count()
         spark.catalog.clearCache()
+        newVertices2.count()
         newVertices.unpersist()
         print("    Update the vertices position")
         spark.catalog.clearCache()
