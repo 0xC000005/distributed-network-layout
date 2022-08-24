@@ -223,7 +223,6 @@ if __name__ == "__main__":
     # edgesCheckpoint = edges.checkpoint()
     edgesCheckpoint = edges.persist(pyspark.StorageLevel.DISK_ONLY_2)
     edgesCheckpoint.count()
-
     print("the number of partitions in edges df are")
     numPartitions = edges.rdd.getNumPartitions()
     print(numPartitions)
@@ -283,9 +282,10 @@ if __name__ == "__main__":
 
     print("Initialize the vertice with x,y with random values and dispx,dispy with 0")
     # verticeWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
-    #     .checkpoint()
+    #     .checkpoint(True)
     verticeWithCord = vertices.withColumn("xy", F.array(F.rand(seed=1) * F.lit(3), F.rand(seed=0) * F.lit(3))) \
         .persist(pyspark.StorageLevel.DISK_ONLY_2)
+    verticeWithCord.count()
 
 
     # cool-down amount
@@ -293,14 +293,17 @@ if __name__ == "__main__":
 
     print("calculate the center repulsive force for given iteration")
     for p in range(numIteration):
-        print("    calculate centroids")
+        spark.catalog.clearCache()
+        print("    calculate centroids 1: sampling")
         centroids = verticeWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nNodes), seed=1)
+        print("    calculate centroids 2: collecting")
         centroid_list = centroids.select("xy").rdd.flatMap(lambda x: x).collect()
 
         print("    calculate centroids repulsive force")
         vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy"))  # .cache()
         print("    vCentroid transferred")
         vCentroid.count()
+        spark.catalog.clearCache()
         print("    vCentroid updated")
         print("    find the center of the network")
         if nNodes > 0:
@@ -316,7 +319,7 @@ if __name__ == "__main__":
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
                                                                                         "dispCenterXY") # .cache()
         vCenter.count()
-
+        spark.catalog.clearCache()
         centerBroadcast.unpersist()
 
         print("    calculate total repulsive forece displacement")
@@ -357,7 +360,7 @@ if __name__ == "__main__":
         #                                       (cachedAAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
         #     newVertices['dispY'])) \
         #     # .cache()
-
+        spark.catalog.clearCache()
         newVertices2 = newVertices.join((aAgg), on=(newVertices['id'] == aAgg['id']), how='left_outer') \
             .drop(aAgg['id']) \
             .withColumn('newDispColX', F.when(aAgg['adispXY'][0].isNotNull(),
@@ -365,9 +368,10 @@ if __name__ == "__main__":
             newVertices['dispX'])) \
             .withColumn('newDispColY', F.when(aAgg['adispXY'][1].isNotNull(),
                                               (aAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
-            newVertices['dispY'])) \
+            newVertices['dispY'])).persist(pyspark.StorageLevel.DISK_ONLY_2) \
             # .cache()
-
+        newVertices2.count()
+        spark.catalog.clearCache()
         newVertices.unpersist()
         print("    Update the vertices position")
         spark.catalog.clearCache()
@@ -381,6 +385,7 @@ if __name__ == "__main__":
         #     .drop("xy", "dispCentroidXY", "dispCenterXY", "dispX", "dispY", "aDispXY", "newDispColX", "newDispColY",
         #           "length", "newDispX", "newDispY") \
         #     .withColumnRenamed("newXY", "xy").checkpoint(eager=True)
+        spark.catalog.clearCache()
         updatedVertices = newVertices2.withColumn("length",
                                                   F.sqrt(F.col('newDispColX') ** 2 + F.col('newDispColY') ** 2)) \
             .withColumn('newDispX',
@@ -391,12 +396,13 @@ if __name__ == "__main__":
             .drop("xy", "dispCentroidXY", "dispCenterXY", "dispX", "dispY", "aDispXY", "newDispColX", "newDispColY",
                   "length", "newDispX", "newDispY") \
             .withColumnRenamed("newXY", "xy").persist(pyspark.StorageLevel.DISK_ONLY_2)
-
-        newVertices2.unpersist()
+        updatedVertices.count()
+        spark.catalog.clearCache()
+        updatedVertices.unpersist()
 
         verticeWithCord = updatedVertices
         # cachedAAgg.unpersist()
-
+        spark.catalog.clearCache()
         print("{} Iterations are completed".format(p, k))
         t -= dt
     updatedV = verticeWithCord.select("id", "xy")
