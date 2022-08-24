@@ -316,9 +316,11 @@ if __name__ == "__main__":
         centerBroadcast = sc.broadcast(center)
 
         print("    calculate center repulsive force")
+        # vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
+        #                                                                                 "dispCenterXY") # .cache()
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                        "dispCenterXY") # .cache()
-        print("    calculate center repulsive force: ")
+                                                                                        "dispCenterXY").persist(pyspark.StorageLevel.DISK_ONLY_2)
+        print("    calculate center repulsive force: update")
         vCenter.count()
         spark.catalog.clearCache()
         centerBroadcast.unpersist()
@@ -333,8 +335,7 @@ if __name__ == "__main__":
         vCentroid.unpersist()
         vCenter.unpersist()
         print("    rForce is calculated")
-        gfA = GraphFrame(verticeWithCord, edges)  # .cache()
-
+        gfA = GraphFrame(verticeWithCord, edges).persist(pyspark.StorageLevel.DISK_ONLY_2)
         print(
             "    messages send to source and destination vertices to calculate displacement on node due to attractive force")
         msgToSrc = aDispSrc(AM.src['xy'], AM.dst['xy'])
@@ -347,7 +348,7 @@ if __name__ == "__main__":
             F.array((F.sum(AM.msg.getItem(0))).alias("x"), (F.sum(AM.msg.getItem(1))).alias("y")).alias("aDispXY"),
             sendToSrc=msgToSrc,  # )
             sendToDst=msgToDst)
-
+        gfA.unpersist()
         # cachedAAgg = AM.getCachedDataFrame(aAgg)
         print("    aForce is calculated")
 
@@ -362,6 +363,7 @@ if __name__ == "__main__":
         #     newVertices['dispY'])) \
         #     # .cache()
         spark.catalog.clearCache()
+        print("    Calculate total displacement from all forces: persisting")
         newVertices2 = newVertices.join((aAgg), on=(newVertices['id'] == aAgg['id']), how='left_outer') \
             .drop(aAgg['id']) \
             .withColumn('newDispColX', F.when(aAgg['adispXY'][0].isNotNull(),
@@ -371,6 +373,7 @@ if __name__ == "__main__":
                                               (aAgg['adispXY'][1] + newVertices['dispY'])).otherwise(
             newVertices['dispY'])).persist(pyspark.StorageLevel.DISK_ONLY_2) \
             # .cache()
+        print("    Calculate total displacement from all forces: applying action")
         newVertices2.count()
         spark.catalog.clearCache()
         newVertices.unpersist()
