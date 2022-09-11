@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=20
-#SBATCH --ntasks-per-node=10
-#SBATCH --cpus-per-task=8
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=80
 #SBATCH --time=23:59:59
 #SBATCH --account=rrg-primath
 #SBATCH --job-name=DistributedLayoutAlgorithm
@@ -44,8 +44,8 @@ echo "SLURM_CPUS_PER_TASK = "$SLURM_CPUS_PER_TASK
 
 
 #start worker nodes
-SPARK_NO_DAEMONIZE=1 srun -n 190 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m 20g -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
-srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --driver-memory 100g --conf spark.driver.memoryOverhead=10g --executor-memory 18g --conf spark.executor.memoryOverhead=1.8g --conf spark.default.parallelism=3040 --conf spark.sql.shuffle.partitions=3040 --conf spark.driver.maxResultSize=2g --conf spark.memory.fraction=0.9 --conf spark.executor.memoryOverhead=2g --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.dynamicAllocation.enabled=False --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --conf "spark.executor.extraJavaOptions= -XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf "spark.driver.extraJavaOptions=-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11 --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
+SPARK_NO_DAEMONIZE=1 srun -n 19 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m ${SLURM_SPARK_MEM}M -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
+srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --driver-memory 18g --executor-memory ${SLURM_SPARK_MEM}M --conf spark.default.parallelism=3040 --conf spark.sql.shuffle.partitions=3040 --conf spark.driver.maxResultSize=2g --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.dynamicAllocation.enabled=False --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --conf "spark.executor.extraJavaOptions= -XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf "spark.driver.extraJavaOptions=-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11 --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
 
 kill $slaves_pid
 stop-master.sh
