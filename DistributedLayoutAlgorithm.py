@@ -264,7 +264,7 @@ if __name__ == "__main__":
     currentEdges = graphs[i].edges
     currentEdgesCounts = currentEdges.count()
 
-    print("variable to stop the while loop of the seleceted nodes of next level of filtration is less than 3")
+    # print("variable to stop the while loop of the seleceted nodes of next level of filtration is less than 3")
     currentSelectedNodes = currentNodes.count()
 
     numOfVertices = graphs[i].vertices.count()
