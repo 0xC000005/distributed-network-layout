@@ -229,7 +229,7 @@ if __name__ == "__main__":
     print("Extract nodes from the edge list dataframe")
     vA = edgesCheckpoint.select(F.col('src')).drop_duplicates() \
         .withColumnRenamed('src', 'id')
-    print("vA partition: " + vA.rdd.getNumPartitions())
+    print("vA partition: " + str(vA.rdd.getNumPartitions()))
     print("number of unique verticex in src column: {}".format(vA.count()))
 
     vB = edgesCheckpoint.select(F.col('dst')).drop_duplicates() \
