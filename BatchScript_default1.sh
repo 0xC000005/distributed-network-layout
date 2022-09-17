@@ -35,6 +35,8 @@ sleep 5
 MASTER_URL=spark://$(scontrol show hostname $SLURM_NODELIST | head -n 1):7077
 # MASTER_URL=$(grep -Po '(?=spark://).*' $SPARK_LOG_DIR/spark-${SPARK_IDENT_STRING}-org.apache.spark.deploy.master*.out)
 
+NWORKERS=$((SLURM_NNODES - 1))
+
 echo "Master URL = "$MASTER_URL
 echo "Number of Workers = "$NWORKERS
 echo "SPARK_IDENT_STRING = "$SPARK_IDENT_STRING
@@ -42,9 +44,9 @@ echo "SPARK_WORKER_DIR = "$SPARK_WORKER_DIR
 echo "SLURM_MEM_PER_NODE = "$SLURM_MEM_PER_NODE
 echo "SLURM_SPARK_MEM= "$SLURM_SPARK_MEM
 echo "SLURM_CPUS_PER_TASK = "$SLURM_CPUS_PER_TASK
+echo "NWORKERS = "$NWORKERS
 
 #start worker nodes
-NWORKERS=$((SLURM_NNODES - 1))
 
 SPARK_NO_DAEMONIZE=1 srun -n {NWORKERS} -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m ${SLURM_SPARK_MEM}M -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
 
