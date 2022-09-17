@@ -32,8 +32,8 @@ export PYTHONPATH=$PYTHONPATH:/cvmfs/soft.computecanada.ca/easybuild/software/20
 start-master.sh
 sleep 5
 #get URL of master node
-# MASTER_URL=spark://$(scontrol show hostname $SLURM_NODELIST | head -n 1):7077
-MASTER_URL=$(grep -Po '(?=spark://).*' $SPARK_LOG_DIR/spark-${SPARK_IDENT_STRING}-org.apache.spark.deploy.master*.out)
+MASTER_URL=spark://$(scontrol show hostname $SLURM_NODELIST | head -n 1):7077
+# MASTER_URL=$(grep -Po '(?=spark://).*' $SPARK_LOG_DIR/spark-${SPARK_IDENT_STRING}-org.apache.spark.deploy.master*.out)
 
 echo "Master URL = "$MASTER_URL
 echo "Number of Workers = "$NWORKERS
@@ -46,9 +46,7 @@ echo "SLURM_CPUS_PER_TASK = "$SLURM_CPUS_PER_TASK
 #start worker nodes
 NWORKERS=$((SLURM_NNODES - 1))
 SPARK_NO_DAEMONIZE=1
-srun -n 19 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m ${SLURM_SPARK_MEM}M -c
-${SLURM_CPUS_PER_TASK} ${MASTER_URL} &
-slaves_pid=$!
+srun -n 19 -N ${NWORKERS} -r 1 --label --output=$SPARK_LOG_DIR/spark-%j-workers.out start-slave.sh -m ${SLURM_SPARK_MEM}M -c ${SLURM_CPUS_PER_TASK} ${MASTER_URL} & slaves_pid=$!
 
 
 srun -n 1 -N 1 spark-submit --master ${MASTER_URL} --driver-memory 180g --executor-memory ${SLURM_SPARK_MEM}M --conf spark.driver.maxResultSize=2g --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.dynamicAllocation.enabled=False --conf spark.scheduler.listenerbus.eventqueue.capacity=20000 --conf "spark.executor.extraJavaOptions= -XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --conf "spark.driver.extraJavaOptions=-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p' -Xloggc:$SCRATCH/log/ -XX:+UseCompressedOops" --packages graphframes:graphframes:0.8.0-spark2.4-s_2.11 --repositories https://repos.spark-packages.org DistributedLayoutAlgorithm.py SNAP/com-friendster.ungraph.txt output/ 100
