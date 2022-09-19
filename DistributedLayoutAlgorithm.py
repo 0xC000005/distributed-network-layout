@@ -293,7 +293,7 @@ if __name__ == "__main__":
 
         print("     calculate centroids repulsive force")
         vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
-
+        print("     calculate centroids repulsive force - cached!")
         vCentroid.count()
 
         print("     find the center of the network")
