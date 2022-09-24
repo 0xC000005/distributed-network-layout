@@ -13,6 +13,7 @@ import sys
 import timeit
 import networkx as nx
 import matplotlib as mpl
+import time
 
 mpl.use('Agg')
 import matplotlib.pyplot as plt
@@ -285,14 +286,18 @@ if __name__ == "__main__":
     print("cool-down amount")
     dt = t / (numIteration + 1)
 
+    time.sleep(600) # pause to log mem usage through my.scinet
+
     print("calculate the center repulsive force for given iteration")
+
     for p in range(numIteration):
         print("     calculate centroids")
         centroids = verticeWithCord.sample(withReplacement=False, fraction=(numberOfCentroids / nNodes), seed=1)
         centroid_list = centroids.select("xy").rdd.flatMap(lambda x: x).collect()
 
         print("     calculate centroids repulsive force")
-        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
+        # vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
+        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).persist(storageLevel='DISK_ONLY')
         print("     calculate centroids repulsive force - cached!")
 
         vCentroid.count() # out of memory error happens here
