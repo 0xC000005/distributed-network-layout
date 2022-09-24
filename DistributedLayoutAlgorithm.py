@@ -2,6 +2,8 @@
 from __future__ import print_function
 import pyspark
 import math
+
+from pyspark import StorageLevel
 from pyspark.sql import functions as F
 from pyspark.sql.types import DoubleType
 from pyspark.sql.types import IntegerType
@@ -297,7 +299,7 @@ if __name__ == "__main__":
 
         print("     calculate centroids repulsive force")
         # vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
-        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).persist(storageLevel='DISK_ONLY')
+        vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).persist(StorageLevel.DISK_ONLY)
         print("     calculate centroids repulsive force - cached!")
 
         vCentroid.count() # out of memory error happens here
@@ -316,12 +318,12 @@ if __name__ == "__main__":
         # vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
         #                                                                                 "dispCenterXY").cache()
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                        "dispCenterXY").persist(storageLevel='DISK_ONLY')
+                                                                                        "dispCenterXY").persist(StorageLevel.DISK_ONLY)
         vCenter.count()
 
         centerBroadcast.unpersist()
 
-        print("     calculate total repulsive forece displacement")
+        print("     calculate total repulsive force displacement")
         newVertices = vCentroid.join(vCenter, on="id") \
             .drop(vCentroid.xy) \
             .withColumn("dispX", (F.col("dispCentroidXY")[0] + F.col("dispCenterXY")[0])) \
