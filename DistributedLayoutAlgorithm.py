@@ -294,7 +294,8 @@ if __name__ == "__main__":
         print("     calculate centroids repulsive force")
         vCentroid = verticeWithCord.withColumn("dispCentroidXY", rForceCentroid("xy")).cache()
         print("     calculate centroids repulsive force - cached!")
-        vCentroid.count()
+
+        vCentroid.count() # out of memory error happens here
 
         print("     find the center of the network")
         if nNodes > 0:
@@ -307,8 +308,10 @@ if __name__ == "__main__":
         centerBroadcast = sc.broadcast(center)
 
         print("     calculate center repulsive force")
+        # vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
+        #                                                                                 "dispCenterXY").cache()
         vCenter = verticeWithCord.withColumn("dispCenterXY", rForceCenter("xy")).select("id", "xy",
-                                                                                        "dispCenterXY").cache()
+                                                                                        "dispCenterXY").persist(storageLevel='DISK_ONLY')
         vCenter.count()
 
         centerBroadcast.unpersist()
