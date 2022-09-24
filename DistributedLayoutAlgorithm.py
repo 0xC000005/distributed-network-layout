@@ -288,7 +288,7 @@ if __name__ == "__main__":
     print("cool-down amount")
     dt = t / (numIteration + 1)
 
-    time.sleep(1200) # pause to log mem usage through my.scinet
+    time.sleep(6000) # pause to log mem usage through my.scinet
 
     print("calculate the center repulsive force for given iteration")
 
